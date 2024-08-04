@@ -1,0 +1,170 @@
+package mainPackage;
+
+import java.awt.Canvas;
+import java.awt.Graphics;
+import java.awt.Taskbar;
+import java.awt.image.BufferStrategy;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import game.GameLoop;
+import game.GameScreen;
+import game.HomeScreen;
+
+
+public class Main extends Canvas implements Runnable{
+
+	private static final long serialVersionUID = 1L;
+	public static final int width = 800 ,height = width /12 * 9; 
+	private Thread thread;
+	private boolean runing = false;
+	public static Background background;
+	public static JFrame Frame;
+	public static playerInfoSaveing save;
+	public static HomeScreen homescreen;
+	public static GameLoop game;
+	public static GameScreen gamescreen;
+	public static boolean setting;
+	
+	public Main() {
+		
+	window(width, height, "My Game", this);
+		
+	}
+	
+	
+	
+	public synchronized void start() {
+		thread = new Thread(this);
+		thread.start();
+		
+		runing = true;
+		
+	}
+	public synchronized void stop() {
+		try {
+			thread.join();
+			runing = false;
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void run() {
+	long lastTime = System.nanoTime();
+	double amountOfTicks = 60.0;
+	double ns = 1000000000 / amountOfTicks;
+	double delta = 0;
+	long timer = System.currentTimeMillis();
+	int frames = 0;
+	while(runing) {
+		long now = System.nanoTime();
+		delta += (now - lastTime)/ns;
+		lastTime = now;
+		while(delta >= 1) {
+			tick();
+			delta--;
+		}
+		if(runing) {
+			render();
+		}
+		frames++;
+		
+		if(System.currentTimeMillis() - timer > 1000) {
+			timer += 1000;
+			Frame.setTitle("FPS: "+frames);
+			frames = 0;
+			
+		}
+	}
+		stop();
+	}
+	
+	public void tick() {
+		try {
+			if(homescreen.gameStart && gamescreen.start.press || gamescreen.backToMain.press) {
+				game.gameruning = true;
+				game.tick();
+			}else if (!homescreen.gameStart){
+				homescreen.tick();
+			}
+			//check if the settings screen need to be run
+			if(!Main.gamescreen.settings.press || setting) {
+				Main.gamescreen.settingsScreen.tick();
+			}else if(Main.gamescreen.settings.press && !setting){
+				Main.gamescreen.settings.press = false;
+				setting = true;
+				Main.gamescreen.settingsScreen.tick();
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+	
+	
+	
+	public void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		
+		try {
+			background.rander(g);
+			if(homescreen.gameStart) {
+				gamescreen.rander(g);
+			}else {
+				homescreen.rander(g);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		g.dispose();
+		bs.show();
+	}
+
+
+	
+public void window(int width,int height,String titel,Main main){
+	//set the game icon
+	try {
+		Taskbar.getTaskbar().setIconImage(ImageIO.read(getClass().getResource("/icon.PNG")));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	background = new Background();	
+	
+	Frame = new JFrame(titel);
+	Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	Frame.setSize(width, height);
+	Frame.setResizable(false);
+	Frame.setLocationRelativeTo(null);
+	Frame.add(main);
+	Frame.setVisible(true);
+		
+	main.start();
+		
+	homescreen = new HomeScreen(this); 
+	save = new playerInfoSaveing(this);
+	homescreen.creatHomeScreen();
+	game = new GameLoop(this);
+	gamescreen = new GameScreen(this);
+	
+	}
+
+
+	public static void main(String[] args) {
+		
+		new Main();
+	}
+
+
+
+}
+
+
