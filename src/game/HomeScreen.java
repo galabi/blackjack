@@ -13,7 +13,7 @@ public class HomeScreen {
 	public int playingMember; //the member that playing in the game
 	public Text login,newgame,NewMemberInfo;
 	public boolean gameStart = false;
-	Textbox text;
+	public Textbox text;
 	Button signup;
 	Main main;
 	

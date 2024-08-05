@@ -15,7 +15,8 @@ public class playerDeck {
 	public ArrayList<Card> deck;
 	int deck_num,totalpoints, deck_base_x;
 	boolean ace = false, finish = false;
-	Audio audio = new Audio(); 
+	Audio audio = new Audio();
+	public long time;
 	
 	public playerDeck(int deck_num) {
 		this.deck_num = deck_num;
@@ -126,10 +127,10 @@ public class playerDeck {
 	
 	public void set_deck_base_x() {
 		int number_of_hands = Main.game.p.playerdecks.size();
-		deck_base_x = ((Main.width - (11 * (number_of_hands)))/(number_of_hands+1))*(deck_num+1);
+		deck_base_x = ((Main.width)/(number_of_hands+1))*(deck_num+1)-35;
 		TotalPointsL.setLocation((deck_base_x + 33)+ (deck.size()-1)*17, 390);
 		for(int i = 0; i < deck.size(); i++) {
-			deck.get(i).setX(deck_base_x + (i * 17));
+			deck.get(i).setX(deck_base_x + (i*17));
 		}
 	}
 	

@@ -13,7 +13,8 @@ import mainPackage.Text;
 public class dealer  {
 Text DealerL ,TotalPointsL;
 ArrayList<Card> DealerDeck;
-int totalpoints=0,miniloop = 0;
+int totalpoints=0;
+long time;
 boolean ace = false;	
 
 //create the dealer labels
@@ -58,6 +59,8 @@ boolean ace = false;
 	public void play() {
 		//add the second card to the dealer total points and show it
 		if(DealerDeck.get(1).FaceUp == false) {
+			time = System.currentTimeMillis();
+			Main.game.p.playerdecks.get(0).audio.PlayAudio("card");
 			DealerDeck.get(1).FaceUp = true;
 			totalpoints = totalpoints + DealerDeck.get(1).points;
 			TotalPointsL.setText(String.valueOf(totalpoints));
@@ -69,8 +72,9 @@ boolean ace = false;
 			}
 		}		
 		//the dealer take cards until his total point are more then 17
-		else if (totalpoints < 17 && miniloop >= 30) {
-		miniloop = 0;
+		else if (totalpoints < 17 && time + 1000 < System.currentTimeMillis()) {
+		time = System.currentTimeMillis();
+		Main.game.p.playerdecks.get(0).audio.PlayAudio("card");
 		DealerDeck.add(Main.game.Deck.remove(0));
 		DealerDeck.get(DealerDeck.size()-1).AddCard(360 + ((DealerDeck.size()-1)*17) ,110);
 		totalpoints = totalpoints + (DealerDeck.get(DealerDeck.size()-1).points);
@@ -82,7 +86,7 @@ boolean ace = false;
 				TotalPointsL.setText(String.valueOf(totalpoints));
 			}
 		TotalPointsL.setX(395 + (DealerDeck.size()-1)*17);
-		} else if(miniloop <30) miniloop++;
+		}
 		
 	}
 	

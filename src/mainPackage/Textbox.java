@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -8,11 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 
-public class Textbox extends component implements KeyListener,MouseListener{
+
+public class Textbox extends component implements KeyListener,MouseListener,MouseMotionListener{
 
 	int sizeX,sizeY,mouseX,mouseY;
+	FontMetrics metrics;
 	public int pointerLocation;
 	boolean press = false;
 	public boolean enter = false,release = false;
@@ -24,6 +28,7 @@ public class Textbox extends component implements KeyListener,MouseListener{
 			pointerLocation = getText().length();
 			main.addKeyListener(this);
 			main.addMouseListener(this);
+			main.addMouseMotionListener(this);
 			font = new Font("Gisha", Font.PLAIN, 14);
 		}
 		
@@ -35,7 +40,7 @@ public class Textbox extends component implements KeyListener,MouseListener{
 			g.fillRect(x, y, sizeX, sizeY);
 			g.draw3DRect(x, y, sizeX, sizeY, !press);
 			g.setColor(Color.black);
-			FontMetrics metrics = g.getFontMetrics(font);
+			metrics = g.getFontMetrics(font);
 			g.setFont(font);
 			if (press) {
 				textbox = textbox.substring(0, pointerLocation) + "|"+ textbox.substring(pointerLocation, textbox.length());
@@ -48,7 +53,7 @@ public class Textbox extends component implements KeyListener,MouseListener{
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			if(e.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE && press) {
+			if(e.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE  && e.getExtendedKeyCode() != KeyEvent.VK_ESCAPE && press) {
 				text = getText().substring(0, pointerLocation) + e.getKeyChar() + getText().substring(pointerLocation, getText().length());
 				pointerLocation++;
 			}
@@ -82,6 +87,8 @@ public class Textbox extends component implements KeyListener,MouseListener{
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				enter = true;
 				press = false;
+			}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE && press) {
+				press = false;
 			}
 		}
 
@@ -100,11 +107,23 @@ public class Textbox extends component implements KeyListener,MouseListener{
 			mouseX = e.getX();
 			mouseY = e.getY();
 			enter = false;
+			
 			if((e.getX() <= x+sizeX) && (e.getX() >= x) && (e.getY() <= y+sizeY) && (e.getY() >= y)) {
 				press = true;
+				for(int i = 1; i <= text.length();i++) {
+					if(e.getX()<= x+5+metrics.stringWidth(text.substring(0,i))) {
+						pointerLocation = i-1;
+						break;
+					}else if(e.getX() > x+5+metrics.stringWidth(text)) {
+						pointerLocation = text.length();
+						break;
+					}
+				}
 			}else {
 				press = false;
 			}
+			
+			
 		}
 
 		@Override
@@ -120,7 +139,18 @@ public class Textbox extends component implements KeyListener,MouseListener{
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
+
+		}
+		
+		@Override
+		public void mouseDragged(MouseEvent e) {
+
 			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+
 		}
 		
 		

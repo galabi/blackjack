@@ -9,7 +9,7 @@ import mainPackage.Main;
 public class GameLoop {
 
 	 Main main;
-	 public int playerhand = 0;
+	 public int playerhand = 0,winnerCunter = 0;
 	 public boolean newgame = true,gameruning = false;
 	 public Player p;
 	 dealer d;
@@ -101,6 +101,7 @@ public class GameLoop {
 				}
 			}else if (Main.gamescreen.stand.press) {
 				Main.gamescreen.stand.press = false;
+				p.playerdecks.get(playerhand).TotalPointsL.SetColor(Color.black);
 				playerhand ++;
 			}
 			
@@ -110,15 +111,24 @@ public class GameLoop {
 		if(playerhand == p.playerdecks.size()) {
 			gameruning = false;
 			d.play();
+
 			
 			if (d.totalpoints >= 17){
-				for(playerDeck i : p.playerdecks) {
-					i.checkWiner(Main.game.d.totalpoints);
+				
+				if (winnerCunter < p.playerdecks.size()) {
+					if (winnerCunter == 0 || p.playerdecks.get(winnerCunter-1).time + 2000 < System.currentTimeMillis()) {
+						p.playerdecks.get(winnerCunter).checkWiner(Main.game.d.totalpoints);
+						p.playerdecks.get(winnerCunter).time = System.currentTimeMillis();
+						winnerCunter++;
+					}
+				}else {
+					Main.gamescreen.start.press = false;
+					Main.gamescreen.start.setEnabled(true);
+					newgame = true;
+					p.BetIsOk = false;
 				}
-				Main.gamescreen.start.press = false;
-				Main.gamescreen.start.setEnabled(true);
-				newgame = true;
-				p.BetIsOk = false;
+
+
 			}
 		}
 	}
@@ -127,6 +137,7 @@ public class GameLoop {
 
 public void resetStats() {
 	//Prepare the game for a new game
+	winnerCunter = 0;
 	d.reset();
 	for(playerDeck i : Main.game.p.playerdecks) {
 		i.reset();
