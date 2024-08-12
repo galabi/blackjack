@@ -8,11 +8,13 @@ import javax.sound.sampled.FloatControl;
 
 
 public class Audio {
-	File cardfile,winfile,losefile;
+	File cardfile,winfile,losefile,coin,coins;
 	public Audio() {
 		cardfile = new File("./source/cards.wav");
 		winfile = new File("./source/win.wav");
 		losefile = new File("./source/lose.wav");
+		coin = new File("./source/coin.wav");
+		coins = new File("./source/coin.wav");
 	}
 	
 	public void PlayAudio(String Audio) {
@@ -26,6 +28,12 @@ public class Audio {
 			break;
 		case "lose":
 			file = losefile;
+		break;
+		case "coin":
+			file = coin;
+		break;
+		case "coins":
+			file = coins;
 		break;
 		}
 		try {

@@ -18,7 +18,7 @@ public class Textbox extends component implements KeyListener,MouseListener,Mous
 	FontMetrics metrics;
 	public int pointerLocation;
 	boolean press = false;
-	public boolean enter = false,release = false;
+	public boolean enter = false,release = false,textBoxEnabled = false;
 	
 		public Textbox(int x ,int y, int sizeX, int sizeY, String text,Main main) {
 			super(x, y, text);
@@ -107,7 +107,7 @@ public class Textbox extends component implements KeyListener,MouseListener,Mous
 			mouseY = e.getY();
 			enter = false;
 			
-			if((e.getX() <= x+sizeX) && (e.getX() >= x) && (e.getY() <= y+sizeY) && (e.getY() >= y)) {
+			if((e.getX() <= x+sizeX) && (e.getX() >= x) && (e.getY() <= y+sizeY) && (e.getY() >= y) && textBoxEnabled) {
 				press = true;
 				for(int i = 1; i <= text.length();i++) {
 					if(e.getX()<= x+5+metrics.stringWidth(text.substring(0,i))) {

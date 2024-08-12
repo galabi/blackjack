@@ -25,6 +25,7 @@ public class Main extends Canvas implements Runnable{
 	public static GameLoop game;
 	public static GameScreen gamescreen;
 	public static boolean setting;
+
 	
 	public Main() {
 		
@@ -83,24 +84,25 @@ public class Main extends Canvas implements Runnable{
 	
 	public void tick() {
 		try {
-			if(homescreen.gameStart && gamescreen.start.press || gamescreen.backToMain.press) {
-				game.gameruning = true;
-				game.tick();
-			}else if (!homescreen.gameStart){
+			 if(!homescreen.memberLogin){
 				homescreen.tick();
-			}
+			 }else{
+				gamescreen.tick();
+			 }
 			//check if the settings screen need to be run
-			if(!Main.gamescreen.settings.press || setting) {
-				Main.gamescreen.settingsScreen.tick();
-			}else if(Main.gamescreen.settings.press && !setting){
-				Main.gamescreen.settings.press = false;
+			if(!gamescreen.settings.press || setting) {
+				gamescreen.settingsScreen.tick();
+			}else if(gamescreen.settings.press && !setting){
+
+				gamescreen.settings.press = false;
+				gamescreen.settingsScreen.playerNameBox.textBoxEnabled = true;
 				setting = true;
-				Main.gamescreen.settingsScreen.tick();
+				gamescreen.settingsScreen.tick();
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
-		}
-
+		      System.out.println(e);
+		      e.printStackTrace();
+		      }
 	}
 	
 	
@@ -115,7 +117,7 @@ public class Main extends Canvas implements Runnable{
 		
 		try {
 			background.rander(g);
-			if(homescreen.gameStart) {
+			if(homescreen.memberLogin) {
 				gamescreen.rander(g);
 			}else {
 				homescreen.rander(g);
@@ -146,6 +148,7 @@ public void window(int width,int height,String titel,Main main){
 	Frame.setLocationRelativeTo(null);
 	Frame.add(main);
 	Frame.setVisible(true);
+	 
 		
 	main.start();
 		

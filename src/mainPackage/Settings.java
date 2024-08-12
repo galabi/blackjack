@@ -26,7 +26,9 @@ public class Settings {
 		if(back.press || Main.gamescreen.settings.press) {
 			back.press = false;
 			Main.setting = false;
+			playerNameBox.textBoxEnabled = true;
 			Main.gamescreen.settings.press = false;
+			playerNameBox.textBoxEnabled = false;
 			}
 		//check if the player press the change name button
 		if(nameB.press || playerNameBox.enter) {

@@ -31,7 +31,11 @@ public ImageIcon image,imagepress;
 		this.FileLocation = FileLocation;
 		main.addMouseListener(this);
 		image = new ImageIcon(getClass().getResource("/"+FileLocation+".png"));
-		imagepress = new ImageIcon(getClass().getResource("/"+FileLocation+"_press.png"));
+		try {
+			imagepress = new ImageIcon(getClass().getResource("/"+FileLocation+"_press.png"));
+		}catch (Exception e) {
+			imagepress = image;
+		}
 	}
 	
 	//draw the button on the screen
@@ -70,16 +74,17 @@ public ImageIcon image,imagepress;
 	//check if the button pressed
 	@Override
 	public void mousePressed(MouseEvent e) {
-		//System.out.println(e.getX());
-		if((e.getX() <= x+sizeX) && (e.getX() >= x) && (e.getY() <= y+sizeY) && (e.getY() >= y) && buttonEnabled) {
+		if((e.getX() <= x+sizeX-3) && (e.getX() >= x+3) && (e.getY() <= y+sizeY-5) && (e.getY() >= y+5) && buttonEnabled) {
 			pressing = true;
-			press = true;
 		}
 	}
 
 	//check if the button released
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if((e.getX() <= x+sizeX-3) && (e.getX() >= x+3) && (e.getY() <= y+sizeY-5) && (e.getY() >= y+5) && buttonEnabled && pressing) {
+			press = true;
+		}
 		pressing = false;
 	}
 

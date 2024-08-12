@@ -1,12 +1,12 @@
 package mainPackage;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.font.TextLayout;
-
 import javax.swing.ImageIcon;
 
 public class Text extends component{
@@ -27,6 +27,7 @@ public class Text extends component{
 			g.setFont(font);
 			if(FileLocation != null) {
 				g.drawImage(image.getImage(), x, y, sizeX, sizeY,null);
+				
 				FontMetrics metrics = g.getFontMetrics(font);
 				g.setColor(textcolor);
 				g.drawString(text, (x + ((sizeX - metrics.stringWidth(text)) / 2)), (y + ((sizeY - metrics.getHeight()) / 2) + metrics.getAscent()));
@@ -39,6 +40,8 @@ public class Text extends component{
 				
 				g2d.translate(x, y);
 				g2d.setColor(outlinecolor);
+				g2d.setStroke(new BasicStroke(font.getSize2D() / 10.0f));
+
 				g2d.draw(shape);
 				g2d.setColor(textcolor);
 				g2d.fill(shape);
@@ -61,8 +64,13 @@ public class Text extends component{
 			this.FileLocation = FileLocation;
 			this.sizeX = sizeX;
 			this.sizeY = sizeY;
-			
+
 			image = new ImageIcon(getClass().getResource(FileLocation));
+			
 		}
+		public String getFileLocation() {
+			return FileLocation;
+		}
+
 		
 }

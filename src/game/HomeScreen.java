@@ -12,10 +12,11 @@ public class HomeScreen {
 	public int baseYMembers = 500;
 	public int playingMember; //the member that playing in the game
 	public Text login,newgame,NewMemberInfo;
-	public boolean gameStart = false;
+	public boolean memberLogin = false;
 	public Textbox text;
 	Button signup;
 	Main main;
+	Thread server_thread,client_thread;
 	
 	public HomeScreen(Main main) {
 		this.main = main;
@@ -29,7 +30,7 @@ public class HomeScreen {
 		newgame = new Text(60, 420, "New Members");
 		signup = new Button(170, 435,76, 35, "Sign up","signup",main);
 		NewMemberInfo = new Text(60, 495, "New members get 500$ to bet with them");
-
+		
 		//add the members to the single menu
 		try {
 			for(Members i : Main.save.members) {
@@ -51,19 +52,27 @@ public class HomeScreen {
 		for(Members i : Main.save.members) {
 			i.rander(g);
 		}
+		
 
 	}
 	
 	public void tick() {
 		//check if the player press the login or the X button
-		if(!gameStart) {
+		if(!memberLogin) {
+			text.textBoxEnabled = true;
+			
+			
 			for(Members i : Main.save.members) {
 				if(i.logMember.press) {
-					gameStart = true;
+					memberLogin = true;
 					playingMember = i.memberNumber;
 					Main.game.p.setPlayer(Main.save.members.get(Main.homescreen.playingMember).getName(), Main.save.members.get(Main.homescreen.playingMember).money, Main.save.members.get(Main.homescreen.playingMember).gamesPlayed,Main.homescreen.playingMember);
 					Main.background.imagloction = "table";
 					Main.gamescreen.settingsScreen.playerNameBox.setText(Main.save.members.get(Main.homescreen.playingMember).getName());
+					Main.game.resetStats();
+					text.textBoxEnabled = false;
+					
+					
 				}else if(i.X.press) {
 					Main.save.deletePlayer(i.memberNumber);
 					break;
@@ -78,6 +87,7 @@ public class HomeScreen {
 				text.enter = false;
 				text.pointerLocation = 0;
 			}
+
 		}
 	}
 	
