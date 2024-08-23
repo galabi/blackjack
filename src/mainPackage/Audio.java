@@ -10,11 +10,11 @@ import javax.sound.sampled.FloatControl;
 public class Audio {
 	File cardfile,winfile,losefile,coin,coins;
 	public Audio() {
-		cardfile = new File("./source/cards.wav");
-		winfile = new File("./source/win.wav");
-		losefile = new File("./source/lose.wav");
-		coin = new File("./source/coin.wav");
-		coins = new File("./source/coin.wav");
+		cardfile = new File("./sound/cards.wav");
+		winfile = new File("./sound/win.wav");
+		losefile = new File("./sound/lose.wav");
+		coin = new File("./sound/coin.wav");
+		coins = new File("./sound/coin.wav");
 	}
 	
 	public void PlayAudio(String Audio) {
