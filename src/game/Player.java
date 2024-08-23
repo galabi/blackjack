@@ -9,7 +9,7 @@ import mainPackage.Text;
 
 
 public class Player {
-int money = 0,gamesPlayed,memberNumber,Bet=0;
+int money = 0,gamesPlayed,memberNumber,Bet=0,id;
 public int playerX = 0;
 public Text PlayerNameL;
 String name = "";
@@ -49,18 +49,14 @@ public void blackjack(int bet) {
 	//when the player win with blackjack 
 	money = (int) (money + bet* 2.5);
 	Main.gamescreen.balance.setText("$"+ money );
-	Main.save.members.get(memberNumber).setMoney(money);
-	Main.save.members.get(memberNumber).setGamesPlayed(gamesPlayed);
-	Main.save.save();
+	save();
 }
 
 public void win(int bet) {
 	//when the player win  
 	money = (money + bet*2);
 	Main.gamescreen.balance.setText("$"+ money );
-	Main.save.members.get(memberNumber).setMoney(money);
-	Main.save.members.get(memberNumber).setGamesPlayed(gamesPlayed);
-	Main.save.save();
+	save();
 }
 	
 
@@ -68,9 +64,13 @@ public void draw(int bet) {
 	//if the player and the dealer have the same points
 	money = money + bet;
 	Main.gamescreen.balance.setText("$"+ money );
-	Main.save.members.get(memberNumber).setMoney(money);
-	Main.save.members.get(memberNumber).setGamesPlayed(gamesPlayed);
-	Main.save.save();
+	save();
+}
+
+public void save() {
+	Main.DB.members.get(memberNumber).setMoney(money);
+	Main.DB.members.get(memberNumber).setGamesPlayed(gamesPlayed);
+	Main.DB.write(id,name,money,gamesPlayed);
 }
 
 
@@ -89,11 +89,12 @@ public void render(Graphics g) {
 	}
 }
 
-public void setPlayer(String name,int money,int gamesPlayed,int memberNumber){
+public void setPlayer(String name,int money,int gamesPlayed,int memberNumber,int id){
 	this.name = name;
 	this.money = money;
 	this.gamesPlayed = gamesPlayed;
 	this.memberNumber = memberNumber;
+	this.id = id;
 	PlayerNameL.setText(name);
 	Main.gamescreen.balance.setText("$"+ money );
 
@@ -108,6 +109,9 @@ public void setMoney(int money) {
 }
 public int getGamesPlayed() {
 	return gamesPlayed;
+}
+public int getId() {
+	return id;
 }
 public void setGamesPlayed(int gamesPlayed) {
 	this.gamesPlayed = gamesPlayed;

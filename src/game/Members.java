@@ -7,24 +7,24 @@ import mainPackage.Text;
 
 
 public class Members {
-	
 String name;
-public int money,gamesPlayed ,memberNumber,baseYMembers;
+public int money,gamesPlayed ,memberNumber,baseYMembers,id;
 Text membersName,memberCerence;
 public Button logMember,X;
 Main main;
 
 
 //set the member info for the login select menu 
-public Members(String name,int money,int gamesPlayed,int memberNumber,Main main) {
+public Members(String name,int money,int gamesPlayed,int memberNumber,int id,Main main) {
 	this.name = name;
 	this.money = money;
 	this.gamesPlayed = gamesPlayed;
 	this.memberNumber = memberNumber;
+	this.id = id;
 	this.main = main;
 }	
 
-//add 2 labels and button for the login select
+//add 2 labels and 2 buttons for the login select
 public void memberSelect() {
 	membersName = new Text(580, (Main.homescreen.baseYMembers + 30 * memberNumber), name);
 	memberCerence = new Text(645, (Main.homescreen.baseYMembers + 30 * memberNumber), "$ "+ money);
@@ -59,6 +59,10 @@ public void setName(String name) {
 
 public int getMoney() {
 	return money;
+}
+
+public int getId() {
+	return id;
 }
 
 public void setMoney(int money) {

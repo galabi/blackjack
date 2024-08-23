@@ -34,8 +34,12 @@ public class GameLoop {
 		
 		//take the bet from the balance and save
 		p.money -= p.Bet;
-		Main.save.members.get(p.memberNumber).setMoney(p.money);
-		Main.save.save();
+		Main.DB.members.get(p.memberNumber).setMoney(p.money);
+		Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+		
+		//Main.save.members.get(p.memberNumber).setMoney(p.money);
+		//Main.save.save();
+		
 		Main.gamescreen.balance.setText("$"+ p.money);
 		
 		Main.gamescreen.deal.setEnabled(false);
@@ -62,9 +66,12 @@ public class GameLoop {
 				Main.gamescreen.Double.press = false;
 				p.money = p.money - p.Bet;
 				p.playerdecks.get(playerhand).bet = p.Bet*2;
-				Main.save.members.get(p.memberNumber).setMoney(p.money);
+				Main.DB.members.get(p.memberNumber).setMoney(p.money);
+				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+				//Main.save.members.get(p.memberNumber).setMoney(p.money);
+				//Main.save.save();
+				
 				Main.gamescreen.balance.setText("$"+ p.money);
-				Main.save.save();
 				p.playerdecks.get(playerhand).doubleHand();
 				p.play();
 				p.playerdecks.get(playerhand).TotalPointsL.SetColor(Color.black);
@@ -75,8 +82,10 @@ public class GameLoop {
 				Main.gamescreen.split.press = false;
 				Main.gamescreen.split.setEnabled(false);
 				p.money = p.money - p.Bet;
-				Main.save.members.get(p.memberNumber).setMoney(p.money);
-				Main.save.save();
+				Main.DB.members.get(p.memberNumber).setMoney(p.money);
+				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+				//Main.save.members.get(p.memberNumber).setMoney(p.money);
+				//Main.save.save();
 				playerDeck deck = new playerDeck(Main.game.p.playerdecks.size());
 				Main.game.p.playerdecks.add(deck);
 				Main.game.p.split();
@@ -114,7 +123,7 @@ public class GameLoop {
 					p.playerdecks.get(winnerCunter).time = System.currentTimeMillis();
 					winnerCunter++;
 					}else {
-						if((p.playerdecks.get(winnerCunter-1).time +3000 > System.currentTimeMillis()) && winLose) {
+						if((p.playerdecks.get(winnerCunter-1).time +1000 > System.currentTimeMillis()) && winLose) {
 							for(playerDeck i:p.playerdecks) {
 								for(Coins j:i.coins) {
 									j.tick();

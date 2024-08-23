@@ -26,19 +26,21 @@ public class Settings {
 		if(back.press || Main.gamescreen.settings.press) {
 			back.press = false;
 			Main.setting = false;
-			playerNameBox.textBoxEnabled = true;
+			//playerNameBox.textBoxEnabled = true;
 			Main.gamescreen.settings.press = false;
 			playerNameBox.textBoxEnabled = false;
 			}
 		//check if the player press the change name button
-		if(nameB.press || playerNameBox.enter) {
+		if(nameB.press || (playerNameBox.enter && playerNameBox.textBoxEnabled)) {
 			playerNameBox.enter = false;
 			nameB.press = false;
 			String newMember = playerNameBox.getText();
-			Main.game.p.setName(newMember = newMember.substring(0, 1).toUpperCase() + newMember.substring(1, newMember.length()));
+			newMember = newMember.substring(0, 1).toUpperCase() + newMember.substring(1, newMember.length());
+			Main.game.p.setName(newMember);
 			Main.game.p.playerX = 0;
-			Main.save.members.get(Main.homescreen.playingMember).setName(playerNameBox.getText());
-			Main.save.save();
+			
+			Main.DB.members.get(Main.homescreen.playingMember).setName(playerNameBox.getText());
+			Main.DB.write(Main.game.p.getId(), Main.game.p.getName(), Main.game.p.getMoney(), Main.game.p.getGamesPlayed());
 			}
 	}
 	

@@ -150,7 +150,7 @@ public class playerDeck {
 				playerBet.setText(Integer.toString((int)(bet*2.5)));
 				int j = 0;
 				for(int i = bet/2; i>=10;) {
-					Coins coin = new Coins(380,40+(j*-5), "",coins.get(j).getX()-40,coins.get(coinsSize-1).getY()-5 );
+					Coins coin = new Coins(380,40+(j*-5), "",coins.get(j).getX()-40,coins.get(j).getY());
 					coin.setcoinNumber(j);
 					coin.movingTimes = 45;
 					if (i-1000 >= 0) {

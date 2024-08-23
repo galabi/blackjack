@@ -109,9 +109,9 @@ public class GameScreen {
 				deal.setEnabled(true);
 				Main.homescreen.memberLogin = false;
 				betmenu.resetBet();
-				Main.save.members.get(Main.homescreen.playingMember).logMember.press = false;
-				Main.save.members.get(Main.homescreen.playingMember).memberCerence.setText(Main.game.p.money +" $");
-				Main.save.members.get(Main.homescreen.playingMember).membersName.setText(Main.game.p.name);
+				Main.DB.members.get(Main.homescreen.playingMember).logMember.press = false;
+				Main.DB.members.get(Main.homescreen.playingMember).memberCerence.setText(Main.game.p.money +" $");
+				Main.DB.members.get(Main.homescreen.playingMember).membersName.setText(Main.game.p.name);
 
 				Main.background.setBackground("main");
 				Main.game.p.playerX = 0;

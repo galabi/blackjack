@@ -20,7 +20,8 @@ public class Main extends Canvas implements Runnable{
 	private boolean runing = false;
 	public static Background background;
 	public static JFrame Frame;
-	public static playerInfoSaveing save;
+	//public static playerInfoSaveing save;
+	public static dataBase DB;
 	public static HomeScreen homescreen;
 	public static GameLoop game;
 	public static GameScreen gamescreen;
@@ -139,6 +140,7 @@ public void window(int width,int height,String titel,Main main){
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+	DB = new dataBase(main);
 	background = new Background();	
 	
 	Frame = new JFrame(titel);
@@ -151,9 +153,9 @@ public void window(int width,int height,String titel,Main main){
 	 
 		
 	main.start();
-		
+	
 	homescreen = new HomeScreen(this); 
-	save = new playerInfoSaveing(this);
+	//save = new playerInfoSaveing(this);
 	homescreen.creatHomeScreen();
 	game = new GameLoop(this);
 	gamescreen = new GameScreen(this);
