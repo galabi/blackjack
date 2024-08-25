@@ -1,16 +1,17 @@
 package mainPackage;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 
 public class Button extends component implements MouseListener{
 	
-int sizeX,sizeY;
+int sizeX,sizeY,angle = 0;
 public boolean press = false;
 boolean pressing = false,buttonEnabled = true;
 String FileLocation;
@@ -42,19 +43,15 @@ public ImageIcon image,imagepress;
 	@Override
 	public void rander(Graphics g) {
 		if(!buttonEnabled)return;
-		g.setColor(mycolor);
-		if(FileLocation == null) {
-			g.setColor(Color.black);
-			FontMetrics metrics = g.getFontMetrics(font);
-			g.setFont(font);
-			g.drawString(text, (x + ((sizeX - metrics.stringWidth(text)) / 2)), (y + ((sizeY - metrics.getHeight()) / 2) + metrics.getAscent()));
+		Graphics2D g2d =  (Graphics2D) g;
+		AffineTransform old = g2d.getTransform();
+		g2d.rotate(Math.toRadians(angle),x,y);
+		if(!pressing) {
+			g2d.drawImage(image.getImage(), x, y, sizeX, sizeY, null);
 		}else {
-			if(!pressing) {
-				g.drawImage(image.getImage(), x, y, sizeX, sizeY, null);
-			}else {
-				g.drawImage(imagepress.getImage(), x, y, sizeX, sizeY, null);
-			}
+			g2d.drawImage(imagepress.getImage(), x, y, sizeX, sizeY, null);
 		}
+        g2d.setTransform(old);
 	}
 		
 	public void setEnabled(boolean enabled) {
@@ -101,5 +98,9 @@ public ImageIcon image,imagepress;
 	public void setImage(String FileLocation) {
 		this.FileLocation = FileLocation;
 		image = new ImageIcon(getClass().getResource(FileLocation));
+	}
+	
+	public void setAngle(int angle) {
+		this.angle = angle;
 	}
 }
