@@ -1,24 +1,19 @@
 package game;
 
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import mainPackage.Audio;
 import mainPackage.Button;
 import mainPackage.Coins;
 import mainPackage.Main;
-import mainPackage.Text;
 import mainPackage.component;
 
 public class BetMenu extends component{
 	
 	Main main;
 	Button coin1,coin2,coin3,coin4,coin5;
-	Text playerBet;
-	public ArrayList<Coins> coins;
 	public ArrayList<Button> coinsB;
-	public int bet = 0,oldBet = 0;
+	public int targetX = 317,targetY = 450,bet_choose = 1;
 	public boolean showBetCoins = true;
 	public Audio audio = new Audio();
 
@@ -33,9 +28,6 @@ public class BetMenu extends component{
 		coin4 = new Button(x-120, y-38, 40,30,"500", "500coin",main);
 		coin5 = new Button(x-160, y-55, 40,30,"1000", "1000coin",main);
 		
-		playerBet = new Text(317, 495, "");
-		
-		coins = new ArrayList<Coins>();
 		coinsB = new ArrayList<Button>();
 		coinsB.add(coin1);
 		coinsB.add(coin2);
@@ -47,39 +39,37 @@ public class BetMenu extends component{
 	
 	public void tick() {
 		for(Button i : coinsB) {
-			if(i.press && Main.game.p.money -bet - Integer.valueOf(i.getText()) >= 0) {
+			if(i.press && Main.game.p.money - Main.game.p.Bet - Integer.valueOf(i.getText()) >= 0) {
 				i.press = false;
 				showBetCoins = true;
 				Main.gamescreen.clear.setEnabled(true);
 				Main.gamescreen.reBet.setEnabled(false);
-				bet += Integer.valueOf(i.getText());
-				Main.game.p.Bet = bet;
-				Coins coin = new Coins(i.getX(), i.getY(), "",317,450);
+				Main.gamescreen.placebet.get(bet_choose).bet += Integer.valueOf(i.getText());
+				Main.game.p.Bet += Integer.valueOf(i.getText());
+				Coins coin = new Coins(i.getX(), i.getY(), "",targetX,targetY);
 				audio.PlayAudio("coin");
 				switch (Integer.valueOf(i.getText())) {
 				case 10:
 					coin.setTextImage("/10coin.png", 40, 30);
-					coins.add(coin);
 					break;
 				case 50:
 					coin.setTextImage("/50coin.png", 40, 30);
-					coins.add(coin);
 					break;
 				case 100:
 					coin.setTextImage("/100coin.png", 40, 30);
-					coins.add(coin);
 					break;
 				case 500:
 					coin.setTextImage("/500coin.png", 40, 30);
-					coins.add(coin);
 					break;
 				case 1000:
 					coin.setTextImage("/1000coin.png", 40, 30);
-					coins.add(coin);
 					break;
 				}
-				coins.get(coins.size()-1).setcoinNumber(coins.size()-1);
-				playerBet.setText(String.valueOf(bet));
+				Main.gamescreen.placebet.get(bet_choose).coins.add(coin);
+				Main.gamescreen.placebet.get(bet_choose).coins.get(Main.gamescreen.placebet.get(bet_choose).coins.size()-1).setcoinNumber(Main.gamescreen.placebet.get(bet_choose).coins.size()-1);
+				Main.gamescreen.placebet.get(bet_choose).playerBet.setText(String.valueOf(Main.gamescreen.placebet.get(bet_choose).bet));
+				Main.gamescreen.placebet.get(bet_choose).playerBet.setLocation(targetX+9, targetY+45);
+				
 				for(playerDeck j : Main.game.p.playerdecks) {
 					j.coins.clear();
 					j.playerBet.setText("");
@@ -88,17 +78,17 @@ public class BetMenu extends component{
 				i.press = false;
 			}
 		}
-		for(Coins i : coins){
-			if((i.getX() < 317 || i.getY() > (450-(coins.size()*5)))) {
+		for(Coins i : Main.gamescreen.placebet.get(bet_choose).coins){
+			if((i.getX() < targetX || i.getY() > (targetY-(Main.gamescreen.placebet.get(bet_choose).coins.size()*5)))) {
 				i.tick();
 				
 			}
 		}
 		
-		if(Main.homescreen.memberLogin && bet == 0) {
+		if(Main.homescreen.memberLogin && Main.gamescreen.placebet.get(bet_choose).bet == 0) {
 			Main.gamescreen.clear.setEnabled(false);
 		}
-		if (Main.homescreen.memberLogin && oldBet == 0) {
+		if (Main.homescreen.memberLogin && Main.gamescreen.placebet.get(bet_choose).oldBet == 0) {
 			Main.gamescreen.reBet.setEnabled(false);
 		}
 	}
@@ -108,29 +98,19 @@ public class BetMenu extends component{
 		for(Button i : coinsB) {
 			i.rander(g);
 		}
-		if(showBetCoins) {
-			for(Text i : coins) {
-				i.rander(g);
-			}
-			FontMetrics metrics = g.getFontMetrics(font);
-			playerBet.setX(317 + ((40 - metrics.stringWidth(playerBet.getText())) / 2));
-			playerBet.rander(g);
-		}
 
 	}
 	
 	public void resetBet() {
-		bet = 0;
-		coins.clear();
-		Main.game.p.setBet(0);
+		Main.game.p.Bet -= Main.gamescreen.placebet.get(bet_choose).bet;
+		Main.gamescreen.placebet.get(bet_choose).bet = 0;
+		Main.gamescreen.placebet.get(bet_choose).coins.clear();
 		for(playerDeck i : Main.game.p.playerdecks) {
 			i.coins.clear();
 			i.playerBet.setText("");
 		}
-		playerBet.setText("");
+		Main.gamescreen.placebet.get(bet_choose).playerBet.setText("");
 	}
-	public ArrayList<Coins> getCoins(){
-		return coins;
-	}
+
 
 }

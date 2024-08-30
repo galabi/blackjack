@@ -62,6 +62,7 @@ public class HomeScreen {
 					Main.background.imagloction = "table";
 					Main.gamescreen.settingsScreen.playerNameBox.setText(Main.DB.members.get(Main.homescreen.playingMember).getName());
 					Main.game.resetStats();
+					Main.game.newgame = true;
 					text.textBoxEnabled = false;
 					
 					

@@ -1,22 +1,29 @@
 package game;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import mainPackage.Button;
 import mainPackage.Coins;
 import mainPackage.Main;
 import mainPackage.Settings;
 import mainPackage.Text;
+import mainPackage.placeYourBet;
 
 public class GameScreen {
 
 	Main main;
 	public Text balance,balanceCoin;
 	public Button deal,hit,stand,split,Double,clear,reBet,backToMain,settings;
+	public ArrayList<placeYourBet> placebet;
 	public Settings settingsScreen;
 	public BetMenu betmenu;
 	
 	public GameScreen(Main main) {
 		this.main = main;
+		
+		settingsScreen = new Settings(main);
+		betmenu = new BetMenu(180,520,"betmanu",main);
 		
 		//open the single player game mode screen
 		//labels
@@ -41,10 +48,17 @@ public class GameScreen {
 		reBet.setEnabled(false);
 		backToMain = new Button(20, 20, 40, 40 ,"Back" , "back",main);
 		settings = new Button(740, 20, 40, 40, "settings","settings", main);
-		
-		settingsScreen = new Settings(main);
-		betmenu = new BetMenu(180,520,"betmanu",main);
+		placebet = new ArrayList<placeYourBet>();
+		placebet.add(new placeYourBet(183, 370, 87, 85, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(356, 407, 87, 85, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(534, 395, 87, 85, "placebet", "placebet",main));
+		placebet.get(0).setAngle(15);
+		placebet.get(2).setAngle(-15);
+		placebet.get(1).press = true;
+	
 	}
+	
+	
 	public void tick() {
 		//when the player press deal
 		if((Main.homescreen.memberLogin && Main.gamescreen.deal.press && Main.game.p.getBet()>0) || Main.game.gameruning) {
@@ -55,14 +69,14 @@ public class GameScreen {
 			for(Button i : betmenu.coinsB) {
 				i.press = false;
 			}
-			//when the player didn't press the deal and didn't chooses how match to bet
+			//when the player didn't press the deal and didn't chooses how much to bet
 		}else if (Main.homescreen.memberLogin && !Main.gamescreen.deal.press) {
 			Main.gamescreen.betmenu.tick();
 			//clear button
 			if (clear.press) {
 				clear.press = false;
 				clear.setEnabled(false);
-				Main.gamescreen.betmenu.playerBet.setText("");
+				placebet.get(betmenu.bet_choose).playerBet.setText("");
 				betmenu.resetBet();
 				reBet.setEnabled(true);
 			//re-bet button
@@ -71,31 +85,31 @@ public class GameScreen {
 				reBet.setEnabled(false);
 				clear.setEnabled(true);
 				Main.gamescreen.reBet.press = false;
-				betmenu.bet = betmenu.oldBet;
-				betmenu.playerBet.setText(String.valueOf(betmenu.bet));
-				Main.game.p.Bet = betmenu.bet;
+				placebet.get(betmenu.bet_choose).bet = placebet.get(betmenu.bet_choose).oldBet;
+				placebet.get(betmenu.bet_choose).playerBet.setText(String.valueOf(placebet.get(betmenu.bet_choose).bet));
+				Main.game.p.Bet =+ placebet.get(betmenu.bet_choose).bet;
 				betmenu.audio.PlayAudio("coins");
-				betmenu.coins.clear();
-				for(int i = betmenu.bet; i>=10;) {
-					Coins coin = new Coins(317, 450-(betmenu.coins.size()*5), "",317,450);
+				placebet.get(betmenu.bet_choose).coins.clear();
+				for(int i = placebet.get(betmenu.bet_choose).bet; i>=10;) {
+					Coins coin = new Coins(317, 450-(placebet.get(betmenu.bet_choose).coins.size()*5), "",317,450);
 					if (i-1000 >= 0) {
-						coin.setTextImage("/1000coin.png", 40, 30);
+						coin.setTextImage("/coins/1000coin.png", 40, 30);
 						i-=1000;
 					}else if(i-500 >= 0) {
-						coin.setTextImage("/500coin.png", 40, 30);
+						coin.setTextImage("/coins/500coin.png", 40, 30);
 						i-=500;
 					}else if(i-100 >= 0) {
-						coin.setTextImage("/100coin.png", 40, 30);
+						coin.setTextImage("/coins/100coin.png", 40, 30);
 						i-=100;
 					}else if(i-50 >= 0) {
-						coin.setTextImage("/50coin.png", 40, 30);
+						coin.setTextImage("/coins/50coin.png", 40, 30);
 						i-=50;
 					}else{
-						coin.setTextImage("/10coin.png", 40, 30);
+						coin.setTextImage("/coins/10coin.png", 40, 30);
 						i-=10;
 					}
-					betmenu.coins.add(coin);
-					betmenu.coins.get(betmenu.coins.size()-1).setcoinNumber(betmenu.coins.size()-1);
+					placebet.get(betmenu.bet_choose).coins.add(coin);
+					placebet.get(betmenu.bet_choose).coins.get(placebet.get(betmenu.bet_choose).coins.size()-1).setcoinNumber(placebet.get(betmenu.bet_choose).coins.size()-1);
 
 				}
 			//beck to main button
@@ -119,7 +133,7 @@ public class GameScreen {
 			
 			}
 			
-		//when the player press deal before chooses how match to bet
+		//when the player press deal before chooses how much to bet
 		}else if (Main.homescreen.memberLogin && Main.gamescreen.deal.press) {
 			
 			Main.gamescreen.deal.press = false;
@@ -135,6 +149,11 @@ public class GameScreen {
 		settings.rander(g);
 		betmenu.rander(g);
 
+		for(placeYourBet i : placebet) {
+			i.rander(g);
+		}
+
+		
 		
 		if(Main.game.gameruning) {
 			hit.rander(g);

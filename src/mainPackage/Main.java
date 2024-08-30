@@ -20,7 +20,6 @@ public class Main extends Canvas implements Runnable{
 	private boolean runing = false;
 	public static Background background;
 	public static JFrame Frame;
-	//public static playerInfoSaveing save;
 	public static dataBase DB;
 	public static HomeScreen homescreen;
 	public static GameLoop game;
@@ -48,7 +47,8 @@ public class Main extends Canvas implements Runnable{
 			thread.join();
 			runing = false;
 		} catch (Exception e) {
-		e.printStackTrace();
+		      System.out.println(e);
+		      e.printStackTrace();
 		}
 	}
 	
@@ -124,8 +124,9 @@ public class Main extends Canvas implements Runnable{
 				homescreen.rander(g);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		      System.out.println(e);
+		      e.printStackTrace();
+		      }
 		
 		g.dispose();
 		bs.show();
@@ -138,8 +139,9 @@ public void window(int width,int height,String titel,Main main){
 	try {
 		Taskbar.getTaskbar().setIconImage(ImageIO.read(getClass().getResource("/icon.PNG")));
 	} catch (IOException e) {
-		e.printStackTrace();
-	}
+	      System.out.println(e);
+	      e.printStackTrace();
+	  }
 	DB = new dataBase(main);
 	background = new Background();	
 	
@@ -155,7 +157,6 @@ public void window(int width,int height,String titel,Main main){
 	main.start();
 	
 	homescreen = new HomeScreen(this); 
-	//save = new playerInfoSaveing(this);
 	homescreen.creatHomeScreen();
 	game = new GameLoop(this);
 	gamescreen = new GameScreen(this);

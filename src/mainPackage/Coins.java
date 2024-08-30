@@ -14,7 +14,6 @@ public class Coins extends Text{
 		doubleY = y;
 		this.targetX = targetX;
 		this.targetY = targetY;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void tick() {

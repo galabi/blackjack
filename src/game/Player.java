@@ -20,20 +20,30 @@ double Volume = 0.7;
 public Player(){
 	PlayerNameL = new Text(0, 380, name);
 	PlayerNameL.SetColor(Color.blue);
-
 	playerdecks = new ArrayList<playerDeck>();
 	playerdecks.clear();
 	
 }
 
 
-public void play(){
+public void firstPlay(){
 	//create the first deck
 	if(playerdecks.size() <= 0) {
-		playerDeck mydeck = new playerDeck(0);
-		playerdecks.add(mydeck);
+		for(int i = 0;i<Main.gamescreen.placebet.size();i++) {
+			if(Main.gamescreen.placebet.get(i).bet > 0) {
+				playerdecks.add(new playerDeck(i));
+			}
 		}
-	//take cards
+		for(playerDeck i : playerdecks) {
+			i.getcard();
+		}
+		//the dealer take his first cards
+		Main.game.d.firstcard();
+		}
+		playerdecks.get(0).TotalPointsL.SetColor(Color.blue);
+}
+
+public void play(){
 	playerdecks.get(Main.game.playerhand).getcard();
 }
 

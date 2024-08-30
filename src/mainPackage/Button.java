@@ -18,12 +18,7 @@ String FileLocation;
 Color mycolor = new Color(226, 226, 226, 244);
 public ImageIcon image,imagepress;
 
-	public Button(int x ,int y, int sizeX, int sizeY, String text,Main main) {
-		super(x, y, text);
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-		main.addMouseListener(this);
-	}
+
 	
 	public Button(int x ,int y, int sizeX, int sizeY, String text,String FileLocation,Main main) {
 		super(x, y, text);

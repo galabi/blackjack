@@ -6,6 +6,7 @@ import mainPackage.Card;
 import mainPackage.Coins;
 import mainPackage.DeckOfCards;
 import mainPackage.Main;
+import mainPackage.placeYourBet;
 
 public class GameLoop {
 
@@ -26,20 +27,18 @@ public class GameLoop {
 	public void tick() {
 		//new game setup
 		if(newgame) {
+		newgame = false;
 		Main.gamescreen.betmenu.showBetCoins = false;
+		for(placeYourBet i:Main.gamescreen.placebet){
+			i.setEnabled(false);
+		}
 		resetStats();
-		Main.gamescreen.betmenu.oldBet = Main.gamescreen.betmenu.bet;
-		p.Bet = Main.gamescreen.betmenu.bet;
 		winLose = false;
 		
 		//take the bet from the balance and save
 		p.money -= p.Bet;
 		Main.DB.members.get(p.memberNumber).setMoney(p.money);
 		Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
-		
-		//Main.save.members.get(p.memberNumber).setMoney(p.money);
-		//Main.save.save();
-		
 		Main.gamescreen.balance.setText("$"+ p.money);
 		
 		Main.gamescreen.deal.setEnabled(false);
@@ -47,8 +46,7 @@ public class GameLoop {
 		Main.gamescreen.reBet.setEnabled(false);
 		Main.gamescreen.hit.setEnabled(true);
 		Main.gamescreen.stand.setEnabled(true);
-		p.play();//player take card
-		newgame = false;
+		p.firstPlay();//player take card
 		}
 		
 		//wait until the player press buttons
@@ -68,9 +66,6 @@ public class GameLoop {
 				p.playerdecks.get(playerhand).bet = p.Bet*2;
 				Main.DB.members.get(p.memberNumber).setMoney(p.money);
 				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
-				//Main.save.members.get(p.memberNumber).setMoney(p.money);
-				//Main.save.save();
-				
 				Main.gamescreen.balance.setText("$"+ p.money);
 				p.playerdecks.get(playerhand).doubleHand();
 				p.play();
@@ -84,9 +79,7 @@ public class GameLoop {
 				p.money = p.money - p.Bet;
 				Main.DB.members.get(p.memberNumber).setMoney(p.money);
 				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
-				//Main.save.members.get(p.memberNumber).setMoney(p.money);
-				//Main.save.save();
-				playerDeck deck = new playerDeck(Main.game.p.playerdecks.size());
+				playerDeck deck = new playerDeck(Main.game.p.playerdecks.size()+1);
 				Main.game.p.playerdecks.add(deck);
 				Main.game.p.split();
 				for(playerDeck i : Main.game.p.playerdecks) {
@@ -131,6 +124,9 @@ public class GameLoop {
 							}
 						}else {
 							newgame = true;
+							for(placeYourBet i:Main.gamescreen.placebet){
+								i.setEnabled(true);
+							}
 							gameruning = false;
 							Main.gamescreen.deal.setEnabled(true);
 							Main.gamescreen.clear.setEnabled(true);
@@ -163,7 +159,6 @@ public void resetStats() {
 	}
 	Main.game.p.playerdecks.clear();
 	playerhand = 0;
-	newgame = true;
 	
 	//check if you need a new deck of cards
 	if(Deck.size()<10) {

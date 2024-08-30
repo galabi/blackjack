@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import javax.swing.ImageIcon;
 
 public class Card {
-int x,y,sizeX = 50, sizeY = 80;
+int x,y,sizeX = 56, sizeY = 80;
 public int points,face;
 public int angle = 0;
 public Boolean FaceUp = true;
