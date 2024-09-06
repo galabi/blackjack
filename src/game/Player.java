@@ -18,7 +18,7 @@ double Volume = 0.7;
 
 
 public Player(){
-	PlayerNameL = new Text(0, 380, name);
+	PlayerNameL = new Text(0, 515, name);
 	PlayerNameL.SetColor(Color.blue);
 	playerdecks = new ArrayList<playerDeck>();
 	playerdecks.clear();
@@ -48,11 +48,15 @@ public void play(){
 }
 
 
-public void split() {
-	playerdecks.get(playerdecks.size()-1).deck.add(playerdecks.get(Main.game.playerhand).deck.remove(playerdecks.get(Main.game.playerhand).deck.size()-1));
-	playerdecks.get(playerdecks.size()-1).deck.get(0).setY(playerdecks.get(playerdecks.size()-1).deck.get(0).getY()-(5*playerdecks.get(playerdecks.size()-1).deck.get(0).angle/17));
-	playerdecks.get(playerdecks.size()-1).totalpoints += playerdecks.get(playerdecks.size()-1).deck.get(0).points;
+public void split(int splithands) {
+	playerdecks.get(Main.game.playerhand+splithands).deck.add(playerdecks.get(Main.game.playerhand).deck.remove(playerdecks.get(Main.game.playerhand).deck.size()-1));
+	playerdecks.get(Main.game.playerhand+splithands).deck.get(0).setY(playerdecks.get(Main.game.playerhand+splithands).deck.get(0).getY()-(5*playerdecks.get(Main.game.playerhand+1).deck.get(0).angle/17));
+	playerdecks.get(Main.game.playerhand+splithands).splitCards();
+	
 	playerdecks.get(Main.game.playerhand).splitCards();
+	playerdecks.get(Main.game.playerhand).getcard();
+	
+	
 	
 }
 public void blackjack(int bet) {
@@ -90,7 +94,7 @@ public void render(Graphics g) {
 	if(playerX == 0 && name != "") {
 		FontMetrics metrics = g.getFontMetrics(PlayerNameL.getFont());
 		playerX = (Main.Frame.getWidth() - metrics.stringWidth(name)) / 2;
-		PlayerNameL.setLocation(playerX, 380);
+		PlayerNameL.setX(playerX);
 		PlayerNameL.setText(name);
 	}
 	PlayerNameL.rander(g);

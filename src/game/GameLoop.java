@@ -3,7 +3,6 @@ package game;
 import java.awt.Color;
 import java.util.ArrayList;
 import mainPackage.Card;
-import mainPackage.Coins;
 import mainPackage.DeckOfCards;
 import mainPackage.Main;
 import mainPackage.placeYourBet;
@@ -12,7 +11,7 @@ public class GameLoop {
 
 	 Main main;
 	 public int playerhand = 0,winnerCunter = 0;
-	 public boolean newgame = true,gameruning = false,winLose = false;
+	 public boolean newgame = true,gameruning = false;
 	 public Player p;
 	 dealer d;
 	 ArrayList<Card> Deck = new DeckOfCards().getShuffledDeck();
@@ -33,7 +32,6 @@ public class GameLoop {
 			i.setEnabled(false);
 		}
 		resetStats();
-		winLose = false;
 		
 		//take the bet from the balance and save
 		p.money -= p.Bet;
@@ -52,6 +50,42 @@ public class GameLoop {
 		//wait until the player press buttons
 		if(playerhand < p.playerdecks.size()) {
 			
+			//check if the hand have more then 21 point
+			if(p.playerdecks.get(playerhand).totalpoints >= 21) {
+				if(p.playerdecks.get(playerhand).totalpoints==21) {
+					p.playerdecks.get(playerhand).TotalPointsL.SetColor(new Color(39,127,23));
+				}else {
+					p.playerdecks.get(playerhand).TotalPointsL.SetColor(Color.red);
+				}
+				playerhand++;
+				setPlayingHandColor();
+				if(playerhand >= p.playerdecks.size()) {
+					return;
+				}
+			}
+			
+			//check if the cards can be split
+			int num_split_hands = 0;
+			for(int i = 0;i<p.playerdecks.size();i++) {
+				if(	p.playerdecks.get(i).deck_num == p.playerdecks.get(playerhand).deck_num) {
+					num_split_hands ++; 
+				}
+			}
+			if(num_split_hands < 3 && p.playerdecks.get(playerhand).deck.size() == 2 && p.playerdecks.get(playerhand).deck.get(0).points == p.playerdecks.get(playerhand).deck.get(1).points && p.money - p.playerdecks.get(playerhand).bet >= 0) {
+				Main.gamescreen.split.setEnabled(true);
+			}else {
+				Main.gamescreen.split.setEnabled(false);
+			}
+			//check if the cards can be doubled
+			if(p.playerdecks.get(playerhand).deck.size() == 2 && Main.game.p.money - p.playerdecks.get(playerhand).bet >= 0) {
+				Main.gamescreen.Double.setEnabled(true);
+			}else {
+				Main.gamescreen.Double.setEnabled(false);
+			}
+			
+			//set the buttons location
+			p.playerdecks.get(playerhand).setButtonsLocation();
+			
 			if(p.playerdecks.get(playerhand).deck.size() < 2) {
 				p.play();
 				//hit button
@@ -62,8 +96,9 @@ public class GameLoop {
 				//double button
 			}else if (Main.gamescreen.Double.press) {
 				Main.gamescreen.Double.press = false;
-				p.money = p.money - p.Bet;
-				p.playerdecks.get(playerhand).bet = p.Bet*2;
+				p.money -= p.playerdecks.get(playerhand).bet;
+				p.Bet += p.playerdecks.get(playerhand).bet;
+				p.playerdecks.get(playerhand).bet = p.playerdecks.get(playerhand).bet*2;
 				Main.DB.members.get(p.memberNumber).setMoney(p.money);
 				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
 				Main.gamescreen.balance.setText("$"+ p.money);
@@ -76,15 +111,39 @@ public class GameLoop {
 			}else if (Main.gamescreen.split.press) {
 				Main.gamescreen.split.press = false;
 				Main.gamescreen.split.setEnabled(false);
-				p.money = p.money - p.Bet;
+				
+				int splithands = 0;
+				for(int i = playerhand;i<p.playerdecks.size();i++) {
+					if(p.playerdecks.get(i).deck_num == p.playerdecks.get(playerhand).deck_num) {
+						splithands++;
+					}
+				}
+				playerDeck deck = new playerDeck(p.playerdecks.get(playerhand).deck_num);
+				p.playerdecks.add(playerhand + splithands, deck);
+				if(p.playerdecks.get(playerhand).deck.get(0).points == 11) {
+					p.playerdecks.get(playerhand).totalpoints += 10;
+				}
+				
+				p.Bet += p.playerdecks.get(playerhand + splithands).bet;
+				p.money -= p.playerdecks.get(playerhand + splithands).bet;
 				Main.DB.members.get(p.memberNumber).setMoney(p.money);
 				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
-				playerDeck deck = new playerDeck(Main.game.p.playerdecks.size()+1);
-				Main.game.p.playerdecks.add(deck);
-				Main.game.p.split();
-				for(playerDeck i : Main.game.p.playerdecks) {
-					i.set_deck_base_x();
+				
+				p.split(splithands);
+				
+				p.playerdecks.get(playerhand + splithands).deck_base_y = p.playerdecks.get(playerhand).deck_base_y - (100 * splithands);
+				p.playerdecks.get(playerhand + splithands).coinsTargetY = p.playerdecks.get(playerhand).coinsTargetY -  (100 * splithands);
+				
+				p.playerdecks.get(playerhand + splithands).deck.get(0).setY(p.playerdecks.get(playerhand + splithands).deck_base_y);
+				p.playerdecks.get(playerhand + splithands).deck.get(0).setX(p.playerdecks.get(playerhand + splithands).deck_base_x);
+				p.playerdecks.get(playerhand + splithands).TotalPointsL.setLocation((p.playerdecks.get(playerhand + splithands).deck_base_x + 38),p.playerdecks.get(playerhand + splithands).deck_base_y + p.playerdecks.get(playerhand + splithands).totalPointsOffset + (p.playerdecks.get(playerhand + splithands).deck.size()*5*p.playerdecks.get(playerhand + splithands).angle/15));
+				p.playerdecks.get(playerhand + splithands).TotalPointsL.setText(Integer.toString(p.playerdecks.get(playerhand + splithands).totalpoints));
+				
+				for(int i = 0; i < p.playerdecks.get(playerhand + splithands).coins.size(); i++) {
+					p.playerdecks.get(playerhand + splithands).coins.get(i).setLocation(p.playerdecks.get(playerhand + splithands).coins.get(i).targetX,p.playerdecks.get(playerhand + splithands).coinsTargetY-(i*5));
 				}
+				p.playerdecks.get(playerhand + splithands).playerBet.setY(p.playerdecks.get(playerhand + splithands).coinsTargetY + 45);
+				
 				//stand button
 			}else if (Main.gamescreen.stand.press) {
 				Main.gamescreen.stand.press = false;
@@ -92,6 +151,7 @@ public class GameLoop {
 				playerhand++;
 				setPlayingHandColor();
 			}
+			
 		}
 		
 		//after the player press the stand button or get more then 21 points in all the hands
@@ -116,13 +176,7 @@ public class GameLoop {
 					p.playerdecks.get(winnerCunter).time = System.currentTimeMillis();
 					winnerCunter++;
 					}else {
-						if((p.playerdecks.get(winnerCunter-1).time +1000 > System.currentTimeMillis()) && winLose) {
-							for(playerDeck i:p.playerdecks) {
-								for(Coins j:i.coins) {
-									j.tick();
-								}
-							}
-						}else {
+						if((p.playerdecks.get(winnerCunter-1).time +2000 < System.currentTimeMillis())) {
 							newgame = true;
 							for(placeYourBet i:Main.gamescreen.placebet){
 								i.setEnabled(true);

@@ -68,16 +68,26 @@ public class placeYourBet extends Button{
 				Main.gamescreen.betmenu.bet_choose = 0;
 				Main.gamescreen.betmenu.targetX = 118;
 				Main.gamescreen.betmenu.targetY = 435;
+				if(coins.size()>0) {
+					Main.gamescreen.clear.buttonEnabled = true;
+				}
 			}else if(Main.gamescreen.placebet.get(1).press){
 				Main.gamescreen.betmenu.bet_choose = 1;
 				Main.gamescreen.betmenu.targetX = 314;
 				Main.gamescreen.betmenu.targetY = 450;
+				if(coins.size()>0) {
+					Main.gamescreen.clear.buttonEnabled = true;
+				}
 			}else {
 				Main.gamescreen.betmenu.bet_choose = 2;
 				Main.gamescreen.betmenu.targetX = 501;
 				Main.gamescreen.betmenu.targetY = 450;
+				if(coins.size()>0) {
+					Main.gamescreen.clear.buttonEnabled = true;
+				}
 			}
-		
+
+			
 		}
 	}
 	

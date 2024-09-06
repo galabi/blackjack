@@ -7,13 +7,14 @@ import mainPackage.Button;
 import mainPackage.Coins;
 import mainPackage.Main;
 import mainPackage.component;
+import mainPackage.placeYourBet;
 
 public class BetMenu extends component{
 	
 	Main main;
 	Button coin1,coin2,coin3,coin4,coin5;
 	public ArrayList<Button> coinsB;
-	public int targetX = 317,targetY = 450,bet_choose = 1;
+	public int targetX = 314,targetY = 450,bet_choose = 1;
 	public boolean showBetCoins = true;
 	public Audio audio = new Audio();
 
@@ -78,12 +79,15 @@ public class BetMenu extends component{
 				i.press = false;
 			}
 		}
-		for(Coins i : Main.gamescreen.placebet.get(bet_choose).coins){
-			if((i.getX() < targetX || i.getY() > (targetY-(Main.gamescreen.placebet.get(bet_choose).coins.size()*5)))) {
-				i.tick();
+		for(placeYourBet i : Main.gamescreen.placebet) {
+			for(Coins j : i.coins){
+				if((j.getX() < j.targetX || j.getY() > (j.targetY-(i.coins.size()*5)))) {
+					j.tick();
 				
+				}
 			}
 		}
+		
 		
 		if(Main.homescreen.memberLogin && Main.gamescreen.placebet.get(bet_choose).bet == 0) {
 			Main.gamescreen.clear.setEnabled(false);
@@ -110,6 +114,7 @@ public class BetMenu extends component{
 			i.playerBet.setText("");
 		}
 		Main.gamescreen.placebet.get(bet_choose).playerBet.setText("");
+		Main.gamescreen.betmenu.showBetCoins = true;
 	}
 
 

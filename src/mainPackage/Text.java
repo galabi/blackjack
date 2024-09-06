@@ -59,7 +59,6 @@ public class Text extends component{
 		public void SetOutLineColor(Color color) {
 			outlinecolor = color;
 		}
-		//set the text out line color
 		public void setTextImage(String FileLocation,int sizeX ,int sizeY) {
 			this.FileLocation = FileLocation;
 			this.sizeX = sizeX;

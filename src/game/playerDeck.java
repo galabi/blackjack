@@ -17,8 +17,8 @@ public class playerDeck {
 	public ArrayList<Card> deck;
 	public ArrayList<Coins> coins;
 	public int bet ,angle = 15,totalPointsOffset = -5, coinsTargetX,coinsTargetY;
-	int deck_num,totalpoints, deck_base_x,deck_base_y;
-	boolean ace = false, finish = false;
+	int deck_num,totalpoints, deck_base_x,deck_base_y ,coinsWidth = 40;
+	boolean ace = false;
 	Audio audio = new Audio();
 	public long time;
 	
@@ -69,7 +69,7 @@ public class playerDeck {
 		deck.add(Main.game.Deck.remove(0));
 		deck.get(deck.size()-1).angle = angle;
 		deck.get(deck.size()-1).AddCard(deck_base_x + ((deck.size()-1)*17) ,deck_base_y + ((deck.size()-1)*5*angle/15));
-		TotalPointsL.setLocation((deck_base_x + 38)+ (deck.size()-1)*17, deck_base_y + totalPointsOffset + (deck.size()*5*angle/15));	
+		TotalPointsL.setLocation((deck_base_x + 38) + (deck.size()-1)*17, deck_base_y + totalPointsOffset + (deck.size()*5*angle/15));	
 		
 		if(deck.get(deck.size()-1).points == 11) ace = true;	
 		
@@ -78,34 +78,7 @@ public class playerDeck {
 			TotalPointsL.setText(String.valueOf(totalpoints));
 			
 			ace = false;
-		}else if(totalpoints >= 21) {
-			if(totalpoints==21) {
-				TotalPointsL.SetColor(new Color(39,127,23));
-			}else {
-				TotalPointsL.SetColor(Color.red);
-			}
-			if(bet == Main.game.p.Bet) {
-				Main.game.playerhand++;
-			}
-			finish = true;
-		}
-				
-		//check if the cards can be split
-		if(deck.get(0).points == deck.get(1).points && deck.size() == 2 && Main.game.p.playerdecks.size() < 3 && Main.game.p.money - Main.game.p.Bet >= 0) {
-			Main.gamescreen.split.setEnabled(true);
-		}else {
-			Main.gamescreen.split.setEnabled(false);
-		}
-		//check if the cards can be doubled
-		if(deck.size() == 2 && Main.game.p.money - Main.game.p.Bet >= 0) {
-			Main.gamescreen.Double.setEnabled(true);
-		}else {
-			Main.gamescreen.Double.setEnabled(false);
-		}
-		
-		//set the buttons location
-		setButtonsLocation();
-		
+		}		
 	}
 	
 	
@@ -122,7 +95,7 @@ public class playerDeck {
 			i.rander(g);
 			}
 		FontMetrics metrics = g.getFontMetrics(playerBet.font);
-		playerBet.setX(coinsTargetX + ((40 - metrics.stringWidth(playerBet.getText())) / 2));
+		playerBet.setX(coinsTargetX + ((coinsWidth - metrics.stringWidth(playerBet.getText())) / 2));
 		playerBet.rander(g);
 	}
 
@@ -132,11 +105,10 @@ public class playerDeck {
 		int coinsSize = coins.size();
 		//winner case
 		if((dealerPoints < totalpoints && totalpoints <= 21) || (dealerPoints > 21 && totalpoints <= 21)) {
-			Main.game.winLose = true;
 			for(int i = 0; i< coinsSize ;i++) {
 				Coins coin = new Coins(380,40+(i*-5),"",coins.get(i).getX(),coins.get(coinsSize-1).getY()-5);
 				coin.movingTimes = 45;
-				if(i < (coinsSize)/2 || bet == Main.game.p.Bet) {
+				if(i < (coinsSize)/2 || bet == Main.gamescreen.placebet.get(deck_num).bet) {
 					coin.setcoinNumber(i);
 				}else {
 					//winner after double
@@ -147,11 +119,13 @@ public class playerDeck {
 			}
 			//black jack case
 			if(totalpoints == 21 && deck.size() == 2) {
+				coinsWidth = 80;
+				coinsTargetX = coins.get(0).getX()-40;
 				Main.game.p.blackjack(bet);
 				playerBet.setText(Integer.toString((int)(bet*2.5)));
 				int j = 0;
 				for(int i = bet/2; i>=10;) {
-					Coins coin = new Coins(380,40+(j*-5), "",coins.get(j).getX()-40,coins.get(j).getY());
+					Coins coin = new Coins(380,40+(j*-5), "",coinsTargetX,coins.get(j).targetY);
 					coin.setcoinNumber(j);
 					coin.movingTimes = 45;
 					if (i-1000 >= 0) {
@@ -189,16 +163,24 @@ public class playerDeck {
 		}else {
 			audio.PlayAudio("lose");
 			TotalPointsL.SetColor(Color.RED);
+			for(Coins i:coins) {
+				i.targetX = 380;
+				i.targetY = 40;
+				i.speedX = 0;
+				i.movingTimes = 60;
+			}
 		}
 	}
 	
 	public void splitCards() {
-		totalpoints -= deck.get(0).points;
+		totalpoints = deck.get(0).points;
+		if(deck.get(deck.size()-1).points == 11) ace = true;
 		TotalPointsL.setText(String.valueOf(totalpoints));
-		getcard();
 	}
 	
 	public void doubleHand() {
+		coinsWidth = 80;
+		coinsTargetX = coins.get(0).getX()-40;
 		int coinsSize = coins.size();
 		for(int i = 0; i< coinsSize ;i++) {
 			Coins coin = new Coins(coins.get(i).getX()-40,coins.get(i).getY(),"",coins.get(i).getX()-40,coins.get(0).getY());
@@ -255,7 +237,7 @@ public class playerDeck {
 		
 	public void setButtonsLocation() {
 		int buttons = 2;
-		if(deck.get(0).points == deck.get(1).points && deck.size() == 2 && Main.game.p.playerdecks.size() < 3 && Main.game.p.money - Main.game.p.Bet >= 0) {
+		if(deck.size() == 2 && deck.get(0).points == deck.get(1).points &&  Main.game.p.money - Main.game.p.Bet >= 0) {
 			buttons++;
 		}
 		if(deck.size() == 2 && Main.game.p.money - Main.game.p.Bet >= 0) {

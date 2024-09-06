@@ -20,6 +20,7 @@ public class Coins extends Text{
 		if(speedX == 0) {
 			speedX = (double)(targetX-x)/movingTimes; 
 			speedY = (double)((targetY-(coinNumber*5))-y)/movingTimes; 
+			
 		}
 		if(movingTimes != 0) {
 			doubleX = doubleX + speedX;

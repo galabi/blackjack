@@ -49,7 +49,7 @@ public class GameScreen {
 		backToMain = new Button(20, 20, 40, 40 ,"Back" , "back",main);
 		settings = new Button(740, 20, 40, 40, "settings","settings", main);
 		placebet = new ArrayList<placeYourBet>();
-		placebet.add(new placeYourBet(183, 370, 87, 85, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(181, 375, 87, 85, "placebet", "placebet",main));
 		placebet.add(new placeYourBet(356, 407, 87, 85, "placebet", "placebet",main));
 		placebet.add(new placeYourBet(534, 395, 87, 85, "placebet", "placebet",main));
 		placebet.get(0).setAngle(15);
@@ -69,14 +69,13 @@ public class GameScreen {
 			for(Button i : betmenu.coinsB) {
 				i.press = false;
 			}
-			//when the player didn't press the deal and didn't chooses how much to bet
+			//when the player didn't press the deal and didn't choose how much to bet
 		}else if (Main.homescreen.memberLogin && !Main.gamescreen.deal.press) {
 			Main.gamescreen.betmenu.tick();
 			//clear button
 			if (clear.press) {
 				clear.press = false;
 				clear.setEnabled(false);
-				placebet.get(betmenu.bet_choose).playerBet.setText("");
 				betmenu.resetBet();
 				reBet.setEnabled(true);
 			//re-bet button
@@ -91,21 +90,21 @@ public class GameScreen {
 				betmenu.audio.PlayAudio("coins");
 				placebet.get(betmenu.bet_choose).coins.clear();
 				for(int i = placebet.get(betmenu.bet_choose).bet; i>=10;) {
-					Coins coin = new Coins(317, 450-(placebet.get(betmenu.bet_choose).coins.size()*5), "",317,450);
+					Coins coin = new Coins(betmenu.targetX, betmenu.targetY-(placebet.get(betmenu.bet_choose).coins.size()*5), "",betmenu.targetX,betmenu.targetY);
 					if (i-1000 >= 0) {
-						coin.setTextImage("/coins/1000coin.png", 40, 30);
+						coin.setTextImage("/1000coin.png", 40, 30);
 						i-=1000;
 					}else if(i-500 >= 0) {
-						coin.setTextImage("/coins/500coin.png", 40, 30);
+						coin.setTextImage("/500coin.png", 40, 30);
 						i-=500;
 					}else if(i-100 >= 0) {
-						coin.setTextImage("/coins/100coin.png", 40, 30);
+						coin.setTextImage("/100coin.png", 40, 30);
 						i-=100;
 					}else if(i-50 >= 0) {
-						coin.setTextImage("/coins/50coin.png", 40, 30);
+						coin.setTextImage("/50coin.png", 40, 30);
 						i-=50;
 					}else{
-						coin.setTextImage("/coins/10coin.png", 40, 30);
+						coin.setTextImage("/10coin.png", 40, 30);
 						i-=10;
 					}
 					placebet.get(betmenu.bet_choose).coins.add(coin);
@@ -137,6 +136,15 @@ public class GameScreen {
 		}else if (Main.homescreen.memberLogin && Main.gamescreen.deal.press) {
 			
 			Main.gamescreen.deal.press = false;
+		}
+		
+		//update the coins location
+		for(playerDeck i:Main.game.p.playerdecks) {
+			for(Coins j:i.coins) {
+				if(j.movingTimes >0) {
+					j.tick();
+				}
+			}
 		}
 	}
 	public void rander(Graphics g) {
