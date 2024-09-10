@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 public class Coins extends Text{
 	public double speedX = 0,speedY = 0,doubleX,doubleY;
 	public int movingTimes = 30,coinNumber=0,targetX,targetY;
+	boolean Enabled = true;
 	
 	public Coins(int x, int y, String text,int targetX,int targetY) {
 		super(x, y, text);
@@ -20,7 +21,7 @@ public class Coins extends Text{
 		if(speedX == 0) {
 			speedX = (double)(targetX-x)/movingTimes; 
 			speedY = (double)((targetY-(coinNumber*5))-y)/movingTimes; 
-			
+			Enabled = true;
 		}
 		if(movingTimes != 0) {
 			doubleX = doubleX + speedX;
@@ -29,8 +30,11 @@ public class Coins extends Text{
 			y=(int)doubleY;
 			movingTimes--;
 			if(movingTimes == 0) {
-			setLocation(targetX, targetY-(coinNumber*5));
-		}
+				setLocation(targetX, targetY-(coinNumber*5));
+				if(targetX == 380 && targetY == 40) {
+					Enabled = false;
+				}
+			}
 		}
 		
 	}
@@ -54,6 +58,8 @@ public class Coins extends Text{
 	
 	@Override
 	public void rander(Graphics g) {
-		g.drawImage(image.getImage(), x, y, sizeX, sizeY,null);
+		if(Enabled) {
+			g.drawImage(image.getImage(), x, y, sizeX, sizeY,null);
+		}
 	}
 }
