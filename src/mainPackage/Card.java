@@ -33,7 +33,7 @@ public ImageIcon image, backimg;
 		if(FaceUp) {
 			Graphics2D g2d =  (Graphics2D) g;
 			AffineTransform old = g2d.getTransform();
-			g2d.rotate(Math.toRadians(angle),x,y);
+			g2d.rotate(Math.toRadians(angle),x+(sizeX/2),y+(sizeY/2));
 			g2d.drawImage(image.getImage(), x, y, sizeX, sizeY,null);
 	        g2d.setTransform(old);
 		}else {

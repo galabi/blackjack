@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import mainPackage.Button;
 import mainPackage.Coins;
+import mainPackage.Image;
 import mainPackage.Main;
 import mainPackage.Settings;
 import mainPackage.Text;
@@ -14,6 +15,7 @@ public class GameScreen {
 
 	Main main;
 	public Text balance,balanceCoin;
+	public Image hand;
 	public Button deal,hit,stand,split,Double,clear,reBet,backToMain,settings;
 	public ArrayList<placeYourBet> placebet;
 	public Settings settingsScreen;
@@ -31,8 +33,8 @@ public class GameScreen {
 		balance.setTextImage("/balance.png", 0, 0);
 		balanceCoin = new Text(20,115, "");
 		balanceCoin.setTextImage("/balance.png", 83, 25);
-
- 		
+		hand = new Image(320, 230, "",150,150,"/Hand.png");
+ 		hand.SetAngle(180);
 		//button
 		deal = new Button(700, 518 ,76 ,40 ,"Deal" ,"deal",main);
 		clear = new Button(625, 518 ,76 ,40 ,"Clear" ,"clear",main);
@@ -156,7 +158,7 @@ public class GameScreen {
 		backToMain.rander(g);
 		settings.rander(g);
 		betmenu.rander(g);
-
+		hand.rander(g);
 		for(placeYourBet i : placebet) {
 			i.rander(g);
 		}

@@ -16,7 +16,7 @@ public class playerDeck {
 	public Text TotalPointsL,playerBet;
 	public ArrayList<Card> deck;
 	public ArrayList<Coins> coins;
-	public int bet ,angle = 15,totalPointsOffset = -5, coinsTargetX,coinsTargetY;
+	public int bet ,angle = 15,totalPointsOffset, coinsTargetX,coinsTargetY;
 	int deck_num,totalpoints, deck_base_x,deck_base_y ,coinsWidth = 40;
 	boolean ace = false;
 	Audio audio = new Audio();
@@ -38,7 +38,7 @@ public class playerDeck {
 		}
 		
 		deck.clear();
-		TotalPointsL = new Text((deck_base_x + 38)+ (deck.size()-1)*17, 390 + totalPointsOffset, "0");
+		TotalPointsL = new Text((deck_base_x + 38)+ (deck.size()-1)*17, 390, "0");
 		TotalPointsL.font = new Font("Gisha", Font.BOLD, 14);
 		TotalPointsL.setTextImage("/totalpointsback.png", 30, 30);
 		bet = Main.gamescreen.placebet.get(deck_num).bet;
@@ -69,7 +69,7 @@ public class playerDeck {
 		deck.add(Main.game.Deck.remove(0));
 		deck.get(deck.size()-1).angle = angle;
 		deck.get(deck.size()-1).AddCard(deck_base_x + ((deck.size()-1)*17) ,deck_base_y + ((deck.size()-1)*5*angle/15));
-		TotalPointsL.setLocation((deck_base_x + 38) + (deck.size()-1)*17, deck_base_y + totalPointsOffset + (deck.size()*5*angle/15));	
+		TotalPointsL.setLocation((deck_base_x + 38) + (deck.size()-1)*17+totalPointsOffset, deck_base_y - 15 + (deck.size()*5*angle/15));	
 		
 		if(deck.get(deck.size()-1).points == 11) ace = true;	
 		
@@ -197,15 +197,15 @@ public class playerDeck {
 		if(coins.size() <0)return;
 		switch (deck_num) {
 		case 0:
-			totalPointsOffset = -5;
-			deck_base_x = 188;
-			deck_base_y = 375;
+			totalPointsOffset = 10;
+			deck_base_x = 177;
+			deck_base_y = 380;
 			angle = 15;
 			coinsTargetX = 118;
 			coinsTargetY = 435;
 			break;
 		case 1:
-			totalPointsOffset = -17;
+			totalPointsOffset = 0;
 			deck_base_x = 363;
 			deck_base_y = 405;
 			angle = 0;
@@ -213,20 +213,20 @@ public class playerDeck {
 			coinsTargetY = 450;
 			break;
 		case 2:
-			totalPointsOffset = -20;
-			deck_base_x = 541;
-			deck_base_y = 393;
+			totalPointsOffset = -5;
+			deck_base_x = 551;
+			deck_base_y = 385;
 			angle = -15;
 			coinsTargetX = 501;
 			coinsTargetY = 450;
 			break;
 		}
 
-		TotalPointsL.setLocation((deck_base_x + 38)+ (deck.size()-1)*17, deck_base_y +totalPointsOffset + (deck.size()*5*angle/15));
+		TotalPointsL.setLocation((deck_base_x + 38)+ (deck.size()-1)*17 +totalPointsOffset, deck_base_y -15 + (deck.size()*5*angle/15));
 		
 		for(int i = 0; i < deck.size(); i++) {
 			deck.get(i).setX(deck_base_x + (i*17));
-			deck.get(i).setY(deck_base_y + (i*5*angle/15));
+			deck.get(i).setY(deck_base_y + (i*angle/15));
 			deck.get(i).angle = angle;
 		}
 		for(int i = 0; i < coins.size(); i++) {

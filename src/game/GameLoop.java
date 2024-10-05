@@ -45,6 +45,7 @@ public class GameLoop {
 		Main.gamescreen.hit.setEnabled(true);
 		Main.gamescreen.stand.setEnabled(true);
 		p.firstPlay();//player take card
+		Main.gamescreen.hand.SetAngle(p.playerdecks.get(playerhand).deck_num*-45+225);
 		}
 		
 		//wait until the player press buttons
@@ -187,6 +188,8 @@ public class GameLoop {
 						}
 				}
 			}
+		}else {
+			Main.gamescreen.hand.SetAngle(p.playerdecks.get(playerhand).deck_num*-45+225);
 		}
 	}
 

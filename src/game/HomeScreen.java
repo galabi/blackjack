@@ -16,7 +16,6 @@ public class HomeScreen {
 	public Textbox text;
 	Button signup;
 	Main main;
-	Thread server_thread,client_thread;
 	
 	public HomeScreen(Main main) {
 		this.main = main;
