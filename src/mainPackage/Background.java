@@ -11,6 +11,7 @@ public class Background {
 	public Background() {
 		imag = new ImageIcon(getClass().getResource("/main_background.PNG"));
 		imagb = new ImageIcon(getClass().getResource("/table_blackjack.PNG"));
+		
 	}
 	
 	//the main func that run the image of the background
