@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="General_images"/>
+	<classpathentry kind="src" path="buttons"/>
+	<classpathentry kind="src" path="cards"/>
+	<classpathentry kind="src" path="coins"/>
+	<classpathentry kind="src" path="sound"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/galabisira/eclipse/java-2024-032/mysql-connector-j-9.0.0/mysql-connector-j-9.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
