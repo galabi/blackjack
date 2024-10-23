@@ -18,7 +18,7 @@ public class playerDeck {
 	public ArrayList<Coins> coins;
 	public int bet ,angle = 15,totalPointsOffset, coinsTargetX,coinsTargetY;
 	int deck_num,totalpoints, deck_base_x,deck_base_y ,coinsWidth = 40;
-	boolean ace = false;
+	boolean ace = false,win;
 	Audio audio = new Audio();
 	public long time;
 	
@@ -105,6 +105,7 @@ public class playerDeck {
 		int coinsSize = coins.size();
 		//winner case
 		if((dealerPoints < totalpoints && totalpoints <= 21) || (dealerPoints > 21 && totalpoints <= 21)) {
+			win = true;
 			for(int i = 0; i< coinsSize ;i++) {
 				Coins coin = new Coins(380,40+(i*-5),"",coins.get(i).getX(),coins.get(coinsSize-1).getY()-5);
 				coin.movingTimes = 45;
@@ -152,7 +153,6 @@ public class playerDeck {
 				Main.game.p.win(bet);
 				playerBet.setText(Integer.toString(bet*2));
 			}
-			audio.PlayAudio("win");
 			TotalPointsL.SetColor(new Color(39,127,23));
 			
 			//draw case
@@ -161,7 +161,6 @@ public class playerDeck {
 			
 			//lose case
 		}else {
-			audio.PlayAudio("lose");
 			TotalPointsL.SetColor(Color.RED);
 			for(Coins i:coins) {
 				i.targetX = 380;

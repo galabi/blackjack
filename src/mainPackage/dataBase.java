@@ -52,7 +52,6 @@ public class dataBase {
 	}
 	
 	public void write(int id,String name,int money,int games_played){
-		
 		sql = "UPDATE users SET  user_name = ?, user_money = ?, user_games_played = ? WHERE id = ?;";
 		
 		try {
@@ -128,6 +127,7 @@ public class dataBase {
 	}
 	
 	public void createPlayer(String name) {
+		System.out.println("ss");
 		sql = "INSERT INTO users(user_name, user_money,user_games_played) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);  

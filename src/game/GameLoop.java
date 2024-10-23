@@ -178,6 +178,17 @@ public class GameLoop {
 					winnerCunter++;
 					}else {
 						if((p.playerdecks.get(winnerCunter-1).time +2000 < System.currentTimeMillis())) {
+							int win = 0;
+							for(playerDeck d: p.playerdecks) {
+								if(d.win) {
+									win++;
+								}
+							}
+							if(win == 0) {
+								p.playerdecks.get(0).audio.PlayAudio("lose");
+							}else {
+								p.playerdecks.get(0).audio.PlayAudio("win");
+							}
 							newgame = true;
 							for(placeYourBet i:Main.gamescreen.placebet){
 								i.setEnabled(true);
