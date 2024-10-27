@@ -19,11 +19,11 @@ boolean ace = false;
 
 //create the dealer labels
 	public dealer() {
-		DealerL = new Text(375,100,"Dealer");
+		DealerL = new Text(562,150,"Dealer");
 		DealerL.SetColor(Color.blue);
-		TotalPointsL = new Text(412, 100, "");
-		TotalPointsL.font = new Font("Gisha", Font.BOLD, 14);
-		TotalPointsL.setTextImage("/totalpointsback.png", 30, 30);
+		TotalPointsL = new Text(618, 150, "");
+		TotalPointsL.font = new Font("Gisha", Font.BOLD, 18);
+		TotalPointsL.setTextImage("/totalpointsback.png", 45, 45);
 		DealerDeck = new ArrayList<Card>();
 		DealerDeck.clear();
 	}
@@ -35,7 +35,7 @@ boolean ace = false;
 		totalpoints = totalpoints + Main.game.Deck.get(0).points;
 		TotalPointsL.setText(String.valueOf(totalpoints));
 		DealerDeck.add(Main.game.Deck.remove(0));
-		DealerDeck.get(0).AddCard(360 + ((DealerDeck.size()-1)*17) ,110);
+		DealerDeck.get(0).AddCard(540 + ((DealerDeck.size()-1)*25) ,165);
 		
 		//check if the card is ace 
 		if(DealerDeck.get(0).points == 11) {
@@ -44,14 +44,14 @@ boolean ace = false;
 		
 		//the dealer tack his second card
 		DealerDeck.add(Main.game.Deck.remove(0));
-		DealerDeck.get(DealerDeck.size()-1).AddCard(360 + ((DealerDeck.size()-1)*17) ,110);
+		DealerDeck.get(DealerDeck.size()-1).AddCard(540 + ((DealerDeck.size()-1)*25) ,165);
 		DealerDeck.get(DealerDeck.size()-1).FaceUp = false;
 		
 		//check if the card is ace 
 		if(DealerDeck.get(1).points == 11) {
 			ace = true;	
 			}	
-		TotalPointsL.setX(395 + (DealerDeck.size()-1)*17);
+		TotalPointsL.setX(592 + (DealerDeck.size()-1)*25);
 
 
 	}
@@ -76,7 +76,7 @@ boolean ace = false;
 		time = System.currentTimeMillis();
 		Main.game.p.playerdecks.get(0).audio.PlayAudio("card");
 		DealerDeck.add(Main.game.Deck.remove(0));
-		DealerDeck.get(DealerDeck.size()-1).AddCard(360 + ((DealerDeck.size()-1)*17) ,110);
+		DealerDeck.get(DealerDeck.size()-1).AddCard(540 + ((DealerDeck.size()-1)*25) ,165);
 		totalpoints = totalpoints + (DealerDeck.get(DealerDeck.size()-1).points);
 				TotalPointsL.setText(String.valueOf(totalpoints));
 		
@@ -85,7 +85,7 @@ boolean ace = false;
 				totalpoints = totalpoints - 10;
 				TotalPointsL.setText(String.valueOf(totalpoints));
 			}
-		TotalPointsL.setX(395 + (DealerDeck.size()-1)*17);
+		TotalPointsL.setX(592 + (DealerDeck.size()-1)*25);
 		}
 		
 	}

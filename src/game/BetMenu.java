@@ -14,7 +14,7 @@ public class BetMenu extends component{
 	Main main;
 	Button coin1,coin2,coin3,coin4,coin5;
 	public ArrayList<Button> coinsB;
-	public int targetX = 314,targetY = 450,bet_choose = 1;
+	public int targetX = 471,targetY = 675,bet_choose = 1;
 	public boolean showBetCoins = true;
 	public Audio audio = new Audio();
 
@@ -23,11 +23,11 @@ public class BetMenu extends component{
 		super(x, y, text);
 		this.main = main;
 		
-		coin1 = new Button(x, y,40,30,"10", "10coin",main);
-		coin2 = new Button(x-40, y-12,40,30,"50", "50coin",main);
-		coin3 = new Button(x-80, y-24, 40,30,"100", "100coin",main);
-		coin4 = new Button(x-120, y-38, 40,30,"500", "500coin",main);
-		coin5 = new Button(x-160, y-55, 40,30,"1000", "1000coin",main);
+		coin1 = new Button(x, y,60,45,"10", "10coin",main);
+		coin2 = new Button(x-60, y-17,60,45,"50", "50coin",main);
+		coin3 = new Button(x-120, y-35, 60,45,"100", "100coin",main);
+		coin4 = new Button(x-180, y-55, 60,45,"500", "500coin",main);
+		coin5 = new Button(x-240, y-80, 60,45,"1000", "1000coin",main);
 		
 		coinsB = new ArrayList<Button>();
 		coinsB.add(coin1);
@@ -51,25 +51,25 @@ public class BetMenu extends component{
 				audio.PlayAudio("coin");
 				switch (Integer.valueOf(i.getText())) {
 				case 10:
-					coin.setTextImage("/10coin.png", 40, 30);
+					coin.setTextImage("/10coin.png", 60, 45);
 					break;
 				case 50:
-					coin.setTextImage("/50coin.png", 40, 30);
+					coin.setTextImage("/50coin.png", 60, 45);
 					break;
 				case 100:
-					coin.setTextImage("/100coin.png", 40, 30);
+					coin.setTextImage("/100coin.png", 60, 45);
 					break;
 				case 500:
-					coin.setTextImage("/500coin.png", 40, 30);
+					coin.setTextImage("/500coin.png", 60, 45);
 					break;
 				case 1000:
-					coin.setTextImage("/1000coin.png", 40, 30);
+					coin.setTextImage("/1000coin.png", 60, 45);
 					break;
 				}
 				Main.gamescreen.placebet.get(bet_choose).coins.add(coin);
 				Main.gamescreen.placebet.get(bet_choose).coins.get(Main.gamescreen.placebet.get(bet_choose).coins.size()-1).setcoinNumber(Main.gamescreen.placebet.get(bet_choose).coins.size()-1);
 				Main.gamescreen.placebet.get(bet_choose).playerBet.setText(String.valueOf(Main.gamescreen.placebet.get(bet_choose).bet));
-				Main.gamescreen.placebet.get(bet_choose).playerBet.setLocation(targetX+9, targetY+45);
+				Main.gamescreen.placebet.get(bet_choose).playerBet.setLocation(targetX+9, targetY+67);
 				
 				for(playerDeck j : Main.game.p.playerdecks) {
 					j.coins.clear();

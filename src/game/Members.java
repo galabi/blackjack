@@ -27,18 +27,18 @@ public Members(String name,int money,int gamesPlayed,int memberNumber,int id,Mai
 
 //add 2 labels and 2 buttons for the login select
 public void memberSelect() {
-	membersName = new Text(580, (Main.homescreen.baseYMembers + 30 * memberNumber), name);
-	memberCerence = new Text(645, (Main.homescreen.baseYMembers + 30 * memberNumber), "$ "+ money);
-	logMember = new Button(700, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)),40, 35, "Login","login",main);
-	X = new Button(545, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)), 30,30, "X","x", main);
+	membersName = new Text(870, (Main.homescreen.baseYMembers + 45 * memberNumber), name);
+	memberCerence = new Text(967, (Main.homescreen.baseYMembers + 45 * memberNumber), "$ "+ money);
+	logMember = new Button(1050, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)),60, 52, "Login","login",main);
+	X = new Button(817, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)), 45,45, "X","x", main);
 }
 
 //after deleting member from the save list updating the the location of the member select 
 public void memberSelectUpdate() {
-	membersName.setLocation(baseX, (Main.homescreen.baseYMembers + 30 * memberNumber));
-	memberCerence.setLocation(baseX + 65, (Main.homescreen.baseYMembers + 30 * memberNumber));
-	logMember.setLocation(baseX + 150, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
-	X.setLocation(baseX - 35, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
+	membersName.setLocation(baseX, (Main.homescreen.baseYMembers + 45 * memberNumber));
+	memberCerence.setLocation(baseX + 97, (Main.homescreen.baseYMembers + 30 * memberNumber));
+	logMember.setLocation(baseX + 225, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)));
+	X.setLocation(baseX - 52, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)));
 }
 
 public void rander(Graphics g) {

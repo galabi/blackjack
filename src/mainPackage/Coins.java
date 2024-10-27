@@ -20,7 +20,7 @@ public class Coins extends Text{
 	public void tick() {
 		if(speedX == 0) {
 			speedX = (double)(targetX-x)/movingTimes; 
-			speedY = (double)((targetY-(coinNumber*5))-y)/movingTimes; 
+			speedY = (double)((targetY-(coinNumber*7))-y)/movingTimes; 
 			Enabled = true;
 		}
 		if(movingTimes != 0) {
@@ -30,8 +30,8 @@ public class Coins extends Text{
 			y=(int)doubleY;
 			movingTimes--;
 			if(movingTimes == 0) {
-				setLocation(targetX, targetY-(coinNumber*5));
-				if(targetX == 380 && targetY == 40) {
+				setLocation(targetX, targetY-(coinNumber*7));
+				if(targetX == 570 && targetY == 60) {
 					Enabled = false;
 				}
 			}
@@ -45,7 +45,7 @@ public class Coins extends Text{
 		doubleX = x;
 		doubleY = y;
 		this.targetX = x;
-		this.targetY = y+(coinNumber*5);
+		this.targetY = y+(coinNumber*7);
 	}
 	
 	public ImageIcon getImage() {

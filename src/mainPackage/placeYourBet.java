@@ -15,8 +15,7 @@ public class placeYourBet extends Button{
 	
 	public placeYourBet(int x, int y, int sizeX, int sizeY, String text, String FileLocation, Main main) {
 		super(x, y, sizeX, sizeY, text, FileLocation, main);
-		
-		playerBet = new Text(x-50, y+85, "");
+		playerBet = new Text(x-75, y+127, "");
 		coins = new ArrayList<Coins>();
 	}
 	
@@ -40,7 +39,7 @@ public class placeYourBet extends Button{
 	        	i.rander(g);
 	        }
 			FontMetrics metrics = g.getFontMetrics(font);
-			playerBet.setX(coins.get(0).targetX + ((40 - metrics.stringWidth(playerBet.getText())) / 2));
+			playerBet.setX(coins.get(0).targetX + ((60 - metrics.stringWidth(playerBet.getText())) / 2));
 			playerBet.rander(g);
 		}
 	}
@@ -66,22 +65,22 @@ public class placeYourBet extends Button{
 			pressing = false;
 			if(Main.gamescreen.placebet.get(0).press) {
 				Main.gamescreen.betmenu.bet_choose = 0;
-				Main.gamescreen.betmenu.targetX = 118;
-				Main.gamescreen.betmenu.targetY = 435;
+				Main.gamescreen.betmenu.targetX = 177;
+				Main.gamescreen.betmenu.targetY = 652;
 				if(coins.size()>0) {
 					Main.gamescreen.clear.buttonEnabled = true;
 				}
 			}else if(Main.gamescreen.placebet.get(1).press){
 				Main.gamescreen.betmenu.bet_choose = 1;
-				Main.gamescreen.betmenu.targetX = 314;
-				Main.gamescreen.betmenu.targetY = 450;
+				Main.gamescreen.betmenu.targetX = 471;
+				Main.gamescreen.betmenu.targetY = 675;
 				if(coins.size()>0) {
 					Main.gamescreen.clear.buttonEnabled = true;
 				}
 			}else {
 				Main.gamescreen.betmenu.bet_choose = 2;
-				Main.gamescreen.betmenu.targetX = 501;
-				Main.gamescreen.betmenu.targetY = 450;
+				Main.gamescreen.betmenu.targetX = 751;
+				Main.gamescreen.betmenu.targetY = 675;
 				if(coins.size()>0) {
 					Main.gamescreen.clear.buttonEnabled = true;
 				}

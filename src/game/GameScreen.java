@@ -25,35 +25,35 @@ public class GameScreen {
 		this.main = main;
 		
 		settingsScreen = new Settings(main);
-		betmenu = new BetMenu(180,520,"betmanu",main);
+		betmenu = new BetMenu(250,780,"betmanu",main);
 		
 		//open the single player game mode screen
 		//labels
-		balance = new Text(70, 127, "");
+		balance = new Text(105, 190, "");
 		balance.setTextImage("/balance.png", 0, 0);
-		balanceCoin = new Text(20,115, "");
-		balanceCoin.setTextImage("/balance.png", 83, 25);
-		hand = new Image(320, 230, "",150,150,"/Hand.png");
+		balanceCoin = new Text(30,172, "");
+		balanceCoin.setTextImage("/balance.png", 127, 37);
+		hand = new Image(480, 345, "",225,225,"/Hand.png");
  		hand.SetAngle(180);
 		//button
-		deal = new Button(700, 518 ,76 ,40 ,"Deal" ,"deal",main);
-		clear = new Button(625, 518 ,76 ,40 ,"Clear" ,"clear",main);
-		reBet = new Button(625, 518 ,76 ,40 ,"Rebet" ,"rebet",main);
-		hit = new Button(220, 518, 76 , 40 ,"Hit" ,"hit",main);
-		stand = new Button(320, 518,76 , 40 ,"Stand" ,"stand",main);
-		split = new Button(520, 518,76 , 40 ,"Split" ,"split",main);
-		Double = new Button(420, 518, 76, 40 ,"Double" ,"double",main);
+		deal = new Button(1050, 800 ,114 ,60 ,"Deal" ,"deal",main);
+		clear = new Button(937, 800 ,114 ,60 ,"Clear" ,"clear",main);
+		reBet = new Button(937, 800 ,114 ,60 ,"Rebet" ,"rebet",main);
+		hit = new Button(330, 800, 114 ,60 ,"Hit" ,"hit",main);
+		stand = new Button(480, 800,114 ,60 ,"Stand" ,"stand",main);
+		split = new Button(780, 800,114 ,60 ,"Split" ,"split",main);
+		Double = new Button(630, 800,114 ,60 ,"Double" ,"double",main);
 		hit.setEnabled(false);
 		stand.setEnabled(false);
 		split.setEnabled(false);
 		Double.setEnabled(false);
 		reBet.setEnabled(false);
-		backToMain = new Button(20, 20, 40, 40 ,"Back" , "back",main);
-		settings = new Button(740, 20, 40, 40, "settings","settings", main);
+		backToMain = new Button(30, 30, 60, 60 ,"Back" , "back",main);
+		settings = new Button(1110, 30, 60, 60, "settings","settings", main);
 		placebet = new ArrayList<placeYourBet>();
-		placebet.add(new placeYourBet(181, 375, 87, 85, "placebet", "placebet",main));
-		placebet.add(new placeYourBet(356, 407, 87, 85, "placebet", "placebet",main));
-		placebet.add(new placeYourBet(534, 395, 87, 85, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(271, 562, 130, 127, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(534, 610, 130, 127, "placebet", "placebet",main));
+		placebet.add(new placeYourBet(801, 592, 130, 127, "placebet", "placebet",main));
 		placebet.get(0).setAngle(15);
 		placebet.get(2).setAngle(-15);
 		placebet.get(1).press = true;
@@ -92,21 +92,21 @@ public class GameScreen {
 				betmenu.audio.PlayAudio("coins");
 				placebet.get(betmenu.bet_choose).coins.clear();
 				for(int i = placebet.get(betmenu.bet_choose).bet; i>=10;) {
-					Coins coin = new Coins(betmenu.targetX, betmenu.targetY-(placebet.get(betmenu.bet_choose).coins.size()*5), "",betmenu.targetX,betmenu.targetY);
+					Coins coin = new Coins(betmenu.targetX, betmenu.targetY-(placebet.get(betmenu.bet_choose).coins.size()*7), "",betmenu.targetX,betmenu.targetY);
 					if (i-1000 >= 0) {
-						coin.setTextImage("/1000coin.png", 40, 30);
+						coin.setTextImage("/1000coin.png", 60, 45);
 						i-=1000;
 					}else if(i-500 >= 0) {
-						coin.setTextImage("/500coin.png", 40, 30);
+						coin.setTextImage("/500coin.png", 60, 45);
 						i-=500;
 					}else if(i-100 >= 0) {
-						coin.setTextImage("/100coin.png", 40, 30);
+						coin.setTextImage("/100coin.png", 60, 45);
 						i-=100;
 					}else if(i-50 >= 0) {
-						coin.setTextImage("/50coin.png", 40, 30);
+						coin.setTextImage("/50coin.png", 60, 45);
 						i-=50;
 					}else{
-						coin.setTextImage("/10coin.png", 40, 30);
+						coin.setTextImage("/10coin.png", 60, 45);
 						i-=10;
 					}
 					placebet.get(betmenu.bet_choose).coins.add(coin);

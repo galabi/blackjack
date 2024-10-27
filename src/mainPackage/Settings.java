@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 public class Settings {
-	int sizeX = 250 ,sizeY = 200 ,x = (Main.width-sizeX)/2,y = (Main.height-sizeY)/12 * 4;
+	int sizeX = 375 ,sizeY = 200 ,x = (Main.width-sizeX)/2,y = (Main.height-sizeY)/12 * 4;
 	Button back, nameB;
 	Text headline, playerName;
 	SliderBar sliderbar;
@@ -17,7 +17,7 @@ public class Settings {
 		headline.setFont(new Font("Gisha", Font.BOLD, 22));
 		sliderbar = new SliderBar(x+15,y+80,sizeX-30,20,"bar",main);
 		playerName = new Text(x+15, y + 150 , "Nametag:");
-		playerNameBox = new Textbox(x+95, y+135, 90, 20, "", main);
+		playerNameBox = new Textbox(x+105, y+135, 90, 20, "", main);
 		nameB = new Button(x+195, y+131, 40, 35, "enter","login", main);
 	}
 	

@@ -18,7 +18,7 @@ double Volume = 0.7;
 
 
 public Player(){
-	PlayerNameL = new Text(0, 515, name);
+	PlayerNameL = new Text(0, 780, name);
 	PlayerNameL.SetColor(Color.blue);
 	playerdecks = new ArrayList<playerDeck>();
 	playerdecks.clear();
