@@ -162,6 +162,7 @@ public class playerDeck {
 			//lose case
 		}else {
 			TotalPointsL.SetColor(Color.RED);
+			playerBet.setText("");
 			for(Coins i:coins) {
 				i.targetX = 380;
 				i.targetY = 40;

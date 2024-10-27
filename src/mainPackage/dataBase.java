@@ -25,8 +25,7 @@ public class dataBase {
 			con = DriverManager.getConnection(url,username,password);
 			st = con.createStatement();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			System.out.println("Data Base is not connected");		}
 		members = new ArrayList<Members>();
 	}
 	
@@ -41,7 +40,7 @@ public class dataBase {
 				money = Integer.valueOf(rs.getString(3));
 				gamesPlayed = Integer.valueOf(rs.getString(4));
 				members.add(new Members(name,money,gamesPlayed,members.size(),id,main));
-				Main.homescreen.baseYMembers = 500 - (members.size()*30);
+				Main.homescreen.baseYMembers = 700 - (members.size()*30);
 				members.get(members.size()-1).memberSelect();
 			}
 			updateLocation();
@@ -127,7 +126,6 @@ public class dataBase {
 	}
 	
 	public void createPlayer(String name) {
-		System.out.println("ss");
 		sql = "INSERT INTO users(user_name, user_money,user_games_played) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);  
@@ -144,8 +142,8 @@ public class dataBase {
 
 	           try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
 	               if (generatedKeys.next()) {
-	                  members.add(new Members(name, 500, 0, members.size(), generatedKeys.getInt(1), main));
-	  				Main.homescreen.baseYMembers = 500 - (members.size()*30);
+	                  members.add(new Members(name, 700, 0, members.size(), generatedKeys.getInt(1), main));
+	  				Main.homescreen.baseYMembers = 700 - (members.size()*30);
 					members.get(members.size()-1).memberSelect();
 	               }
 	           }
@@ -157,10 +155,10 @@ public class dataBase {
 	
 	public void updateLocation() {
 		
-		Main.homescreen.baseYMembers = 500 - (members.size()*30);
+		Main.homescreen.baseYMembers = 750 - (members.size()*30);
 		for(Members i : members) {
 			i.memberSelectUpdate();
 		}
-		Main.homescreen.login.setLocation(580, Main.homescreen.baseYMembers -30);
+		Main.homescreen.login.setLocation(780, Main.homescreen.baseYMembers -30);
 	}
 }

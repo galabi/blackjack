@@ -7,6 +7,7 @@ import mainPackage.Text;
 
 
 public class Members {
+int baseX = 880;
 String name;
 public int money,gamesPlayed ,memberNumber,baseYMembers,id;
 Text membersName,memberCerence;
@@ -34,10 +35,10 @@ public void memberSelect() {
 
 //after deleting member from the save list updating the the location of the member select 
 public void memberSelectUpdate() {
-	membersName.setLocation(580, (Main.homescreen.baseYMembers + 30 * memberNumber));
-	memberCerence.setLocation(645, (Main.homescreen.baseYMembers + 30 * memberNumber));
-	logMember.setLocation(700, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
-	X.setLocation(545, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
+	membersName.setLocation(baseX, (Main.homescreen.baseYMembers + 30 * memberNumber));
+	memberCerence.setLocation(baseX + 65, (Main.homescreen.baseYMembers + 30 * memberNumber));
+	logMember.setLocation(baseX + 150, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
+	X.setLocation(baseX - 35, (Main.homescreen.baseYMembers - 20 + (30 * memberNumber)));
 }
 
 public void rander(Graphics g) {

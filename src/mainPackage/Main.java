@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Taskbar;
 import java.awt.image.BufferStrategy;
@@ -15,7 +16,7 @@ import game.HomeScreen;
 public class Main extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 1L;
-	public static final int width = 800 ,height = width /12 * 9; 
+	public static int width = 1200 ,height = width /12 * 9; 
 	private Thread thread;
 	private boolean runing = false;
 	public static Background background;
@@ -84,6 +85,14 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
+		if(Frame.getWidth() != width || Frame.getHeight() != height) {
+			System.out.println(height);
+			width = Frame.getWidth();
+			height = width /12 * 9;
+			Frame.setSize(width, height);
+			
+	
+		}
 		try {
 			 if(!homescreen.memberLogin){
 				homescreen.tick();
@@ -135,6 +144,7 @@ public class Main extends Canvas implements Runnable{
 
 	
 public void window(int width,int height,String titel,Main main){
+
 	//set the game icon
 	try {
 		Taskbar.getTaskbar().setIconImage(ImageIO.read(getClass().getResource("/icon.PNG")));
@@ -148,7 +158,8 @@ public void window(int width,int height,String titel,Main main){
 	Frame = new JFrame(titel);
 	Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Frame.setSize(width, height);
-	Frame.setResizable(false);
+	Frame.setMinimumSize(new Dimension(width,height));
+	Frame.setResizable(true);
 	Frame.setLocationRelativeTo(null);
 	Frame.add(main);
 	Frame.setVisible(true);

@@ -28,7 +28,7 @@ public class Textbox extends component implements KeyListener,MouseListener,Mous
 			main.addKeyListener(this);
 			main.addMouseListener(this);
 			main.addMouseMotionListener(this);
-			font = new Font("Gisha", Font.PLAIN, 14);
+			font = new Font("Gisha", Font.PLAIN, 16);
 		}
 		
 		//draw the text box on the screen

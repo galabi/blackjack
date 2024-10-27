@@ -7,7 +7,7 @@ import java.awt.Graphics;
 public class component {
 	int x,y;
 	String text;
-	public Font font = new Font("Gisha", Font.BOLD, 16);
+	public Font font = new Font("Gisha", Font.BOLD, 19);
 
 	
 	public component(int x, int y, String text) {

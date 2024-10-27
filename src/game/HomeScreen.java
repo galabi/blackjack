@@ -9,7 +9,7 @@ import mainPackage.Textbox;
 
 public class HomeScreen {
 	
-	public int baseYMembers = 500;
+	public int baseYMembers = 700;
 	public int playingMember; //the member that playing in the game
 	public Text login,newgame,NewMemberInfo;
 	public boolean memberLogin = false;
@@ -23,12 +23,12 @@ public class HomeScreen {
 	
 	public void creatHomeScreen() {
 		Main.DB.read();
-		baseYMembers = 500 - (Main.DB.members.size()*30);
-		login = new Text(580, (baseYMembers - 30), "Login:");
-		text = new Textbox(60, 440,100,20, "",main);	
-		newgame = new Text(60, 420, "New Members");
-		signup = new Button(170, 435,76, 35, "Sign up","signup",main);
-		NewMemberInfo = new Text(60, 495, "New members get 500$ to bet with them");
+		baseYMembers = 750 - (Main.DB.members.size()*30);
+		login = new Text(880, (baseYMembers - 40), "Login:");
+		text = new Textbox(60, 690,100,20, "",main);	
+		newgame = new Text(60, 670, "New Members");
+		signup = new Button(170, 685,76, 35, "Sign up","signup",main);
+		NewMemberInfo = new Text(60, 745, "New members get 500$ to bet with them");
 		
 	}
 	

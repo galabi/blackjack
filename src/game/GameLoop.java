@@ -177,7 +177,7 @@ public class GameLoop {
 					p.playerdecks.get(winnerCunter).time = System.currentTimeMillis();
 					winnerCunter++;
 					}else {
-						if((p.playerdecks.get(winnerCunter-1).time +2000 < System.currentTimeMillis())) {
+						if((p.playerdecks.get(winnerCunter-1).time +1000 < System.currentTimeMillis())) {
 							int win = 0;
 							for(playerDeck d: p.playerdecks) {
 								if(d.win) {
