@@ -38,7 +38,7 @@ public class playerDeck {
 		}
 		
 		deck.clear();
-		TotalPointsL = new Text((deck_base_x + 57)+ (deck.size()-1)*25, 585, "0");
+		TotalPointsL = new Text((deck_base_x + 57)+ (deck.size()-1)*25,  deck_base_y -22 + (deck.size()*7*angle/15), "0");
 		TotalPointsL.font = new Font("Gisha", Font.BOLD, 18);
 		TotalPointsL.setTextImage("/totalpointsback.png", 45, 45);
 		bet = Main.gamescreen.placebet.get(deck_num).bet;

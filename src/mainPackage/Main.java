@@ -85,6 +85,7 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
+		/**
 		if(Frame.getWidth() != width || Frame.getHeight() != height) {
 			System.out.println(height);
 			width = Frame.getWidth();
@@ -92,7 +93,7 @@ public class Main extends Canvas implements Runnable{
 			Frame.setSize(width, height);
 			
 	
-		}
+		}**/
 		try {
 			 if(!homescreen.memberLogin){
 				homescreen.tick();
@@ -159,7 +160,7 @@ public void window(int width,int height,String titel,Main main){
 	Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Frame.setSize(width, height);
 	Frame.setMinimumSize(new Dimension(width,height));
-	Frame.setResizable(true);
+	Frame.setResizable(false);
 	Frame.setLocationRelativeTo(null);
 	Frame.add(main);
 	Frame.setVisible(true);

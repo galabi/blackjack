@@ -158,7 +158,6 @@ public class GameScreen {
 		backToMain.rander(g);
 		settings.rander(g);
 		betmenu.rander(g);
-		hand.rander(g);
 		for(placeYourBet i : placebet) {
 			i.rander(g);
 		}
@@ -173,11 +172,11 @@ public class GameScreen {
 		}
 		Main.game.d.render(g);
 		Main.game.p.render(g);
-		
+		hand.rander(g);
 		if(Main.setting) {
 			settingsScreen.rander(g);
 		}
-		
+			
 	}
 
 }

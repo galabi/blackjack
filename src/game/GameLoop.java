@@ -132,18 +132,18 @@ public class GameLoop {
 				
 				p.split(splithands);
 				
-				p.playerdecks.get(playerhand + splithands).deck_base_y = p.playerdecks.get(playerhand).deck_base_y - (100 * splithands);
-				p.playerdecks.get(playerhand + splithands).coinsTargetY = p.playerdecks.get(playerhand).coinsTargetY -  (100 * splithands);
+				p.playerdecks.get(playerhand + splithands).deck_base_y = p.playerdecks.get(playerhand).deck_base_y - (150 * splithands);
+				p.playerdecks.get(playerhand + splithands).coinsTargetY = p.playerdecks.get(playerhand).coinsTargetY -  (150 * splithands);
 				
 				p.playerdecks.get(playerhand + splithands).deck.get(0).setY(p.playerdecks.get(playerhand + splithands).deck_base_y);
 				p.playerdecks.get(playerhand + splithands).deck.get(0).setX(p.playerdecks.get(playerhand + splithands).deck_base_x);
-				p.playerdecks.get(playerhand + splithands).TotalPointsL.setLocation((p.playerdecks.get(playerhand + splithands).deck_base_x + 38),p.playerdecks.get(playerhand + splithands).deck_base_y + p.playerdecks.get(playerhand + splithands).totalPointsOffset + (p.playerdecks.get(playerhand + splithands).deck.size()*5*p.playerdecks.get(playerhand + splithands).angle/15));
+				p.playerdecks.get(playerhand + splithands).TotalPointsL.setLocation((p.playerdecks.get(playerhand + splithands).deck_base_x + 57)+(p.playerdecks.get(playerhand + splithands).deck.size()-1)*25+p.playerdecks.get(playerhand + splithands).totalPointsOffset,p.playerdecks.get(playerhand + splithands).deck_base_y -22 + p.playerdecks.get(playerhand + splithands).totalPointsOffset + (p.playerdecks.get(playerhand + splithands).deck.size()*7*p.playerdecks.get(playerhand + splithands).angle/15));
 				p.playerdecks.get(playerhand + splithands).TotalPointsL.setText(Integer.toString(p.playerdecks.get(playerhand + splithands).totalpoints));
 				
 				for(int i = 0; i < p.playerdecks.get(playerhand + splithands).coins.size(); i++) {
-					p.playerdecks.get(playerhand + splithands).coins.get(i).setLocation(p.playerdecks.get(playerhand + splithands).coins.get(i).targetX,p.playerdecks.get(playerhand + splithands).coinsTargetY-(i*5));
+					p.playerdecks.get(playerhand + splithands).coins.get(i).setLocation(p.playerdecks.get(playerhand + splithands).coins.get(i).targetX,p.playerdecks.get(playerhand + splithands).coinsTargetY-(i*7));
 				}
-				p.playerdecks.get(playerhand + splithands).playerBet.setY(p.playerdecks.get(playerhand + splithands).coinsTargetY + 45);
+				p.playerdecks.get(playerhand + splithands).playerBet.setY(p.playerdecks.get(playerhand + splithands).coinsTargetY + 67);
 				
 				//stand button
 			}else if (Main.gamescreen.stand.press) {
