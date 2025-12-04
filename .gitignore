@@ -27,3 +27,8 @@ replay_pid*
 /bin/
 *.sqlite
 *.db
+
+bin/
+.settings/
+.classpath
+.project
