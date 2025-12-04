@@ -35,10 +35,10 @@ public class SliderBar extends component implements MouseMotionListener,MouseLis
 	
 	
 	@Override
-	public void rander(Graphics g) {
-		zero.rander(g);
-		full.rander(g);
-		volume.rander(g);
+	public void render(Graphics g) {
+		zero.render(g);
+		full.render(g);
+		volume.render(g);
 		g.drawImage(sliderEnd.getImage(), x, y, 20, 20, null);
 		g.drawImage(sliderEnd.getImage(), x+sizeX-20, y, 20, 20, null);
 		g.drawImage(slider.getImage(), x, y, sizeX, sizeY, null);
@@ -47,7 +47,6 @@ public class SliderBar extends component implements MouseMotionListener,MouseLis
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -65,7 +64,6 @@ public class SliderBar extends component implements MouseMotionListener,MouseLis
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 				
 	}
 
@@ -84,7 +82,6 @@ public class SliderBar extends component implements MouseMotionListener,MouseLis
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	

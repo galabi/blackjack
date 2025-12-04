@@ -21,7 +21,7 @@ public class placeYourBet extends Button{
 	
 	//draw the button on the screen
 	@Override
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		if(!buttonEnabled)return;
 		Graphics2D g2d =  (Graphics2D) g;
 		AffineTransform old = g2d.getTransform();
@@ -36,11 +36,11 @@ public class placeYourBet extends Button{
 
 		if(Main.gamescreen.betmenu.showBetCoins && coins.size() > 0) {
 	        for(Coins i: coins) {
-	        	i.rander(g);
+	        	i.render(g);
 	        }
 			FontMetrics metrics = g.getFontMetrics(font);
 			playerBet.setX(coins.get(0).targetX + ((60 - metrics.stringWidth(playerBet.getText())) / 2));
-			playerBet.rander(g);
+			playerBet.render(g);
 		}
 	}
 	

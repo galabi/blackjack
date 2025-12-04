@@ -36,16 +36,16 @@ public void memberSelect() {
 //after deleting member from the save list updating the the location of the member select 
 public void memberSelectUpdate() {
 	membersName.setLocation(baseX, (Main.homescreen.baseYMembers + 45 * memberNumber));
-	memberCerence.setLocation(baseX + 97, (Main.homescreen.baseYMembers + 30 * memberNumber));
+	memberCerence.setLocation(baseX + 97, (Main.homescreen.baseYMembers + 45 * memberNumber));
 	logMember.setLocation(baseX + 225, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)));
 	X.setLocation(baseX - 52, (Main.homescreen.baseYMembers - 30 + (45 * memberNumber)));
 }
 
-public void rander(Graphics g) {
-	memberCerence.rander(g);
-	membersName.rander(g);
-	logMember.rander(g);
-	X.rander(g);
+public void render(Graphics g) {
+	memberCerence.render(g);
+	membersName.render(g);
+	logMember.render(g);
+	X.render(g);
 }
 
 

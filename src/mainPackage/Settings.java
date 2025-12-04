@@ -39,22 +39,22 @@ public class Settings {
 			Main.game.p.setName(newMember);
 			Main.game.p.playerX = 0;
 			
-			Main.DB.members.get(Main.homescreen.playingMember).setName(playerNameBox.getText());
-			Main.DB.write(Main.game.p.getId(), Main.game.p.getName(), Main.game.p.getMoney(), Main.game.p.getGamesPlayed());
+			dataBase.members.get(Main.homescreen.playingMember).setName(playerNameBox.getText());
+			dataBase.write(Main.game.p.getId(), Main.game.p.getName(), Main.game.p.getMoney(), Main.game.p.getGamesPlayed());
 			}
 	}
 	
-	public void rander(Graphics g){
+	public void render(Graphics g){
 		g.setColor(new Color(0, 0, 0, 200));
 		g.fillRect(x, y, sizeX, sizeY);
 		g.setColor(new Color(248,210,71));
 		g.drawRect(x, y, sizeX, sizeY);
-		sliderbar.rander(g);
-		headline.rander(g);
-		back.rander(g);
-		playerName.rander(g);
-		playerNameBox.rander(g);
-		nameB.rander(g);
+		sliderbar.render(g);
+		headline.render(g);
+		back.render(g);
+		playerName.render(g);
+		playerNameBox.render(g);
+		nameB.render(g);
 	}
 	
 }

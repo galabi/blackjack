@@ -34,7 +34,6 @@ public class Server_Socket implements Runnable{
 				s.close();  
 				ss.close();  
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		
 	}

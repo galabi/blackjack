@@ -44,7 +44,6 @@ public class Audio {
 	        volume.setValue((float) (80 * (Main.game.p.getVolume()-1) + 6));
 		    clip.start();
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 	

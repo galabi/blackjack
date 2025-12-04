@@ -92,12 +92,12 @@ boolean ace = false;
 	
 	
 	public void render(Graphics g) {
-		DealerL.rander(g);
+		DealerL.render(g);
 		for(Card i : DealerDeck) {
 			i.render(g);
 		}
 		if(DealerDeck.size() > 0) {
-			TotalPointsL.rander(g);
+			TotalPointsL.render(g);
 		}
 	}
 	

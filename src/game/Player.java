@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import mainPackage.Main;
 import mainPackage.Text;
+import mainPackage.dataBase;
 
 
 public class Player {
@@ -82,9 +83,9 @@ public void draw(int bet) {
 }
 
 public void save() {
-	Main.DB.members.get(memberNumber).setMoney(money);
-	Main.DB.members.get(memberNumber).setGamesPlayed(gamesPlayed);
-	Main.DB.write(id,name,money,gamesPlayed);
+	dataBase.members.get(memberNumber).setMoney(money);
+	dataBase.members.get(memberNumber).setGamesPlayed(gamesPlayed);
+	dataBase.write(id,name,money,gamesPlayed);
 }
 
 
@@ -97,9 +98,9 @@ public void render(Graphics g) {
 		PlayerNameL.setX(playerX);
 		PlayerNameL.setText(name);
 	}
-	PlayerNameL.rander(g);
+	PlayerNameL.render(g);
 	for(playerDeck i : playerdecks) {
-		i.rander(g);
+		i.render(g);
 	}
 }
 

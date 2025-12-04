@@ -9,6 +9,7 @@ import mainPackage.Image;
 import mainPackage.Main;
 import mainPackage.Settings;
 import mainPackage.Text;
+import mainPackage.dataBase;
 import mainPackage.placeYourBet;
 
 public class GameScreen {
@@ -25,7 +26,7 @@ public class GameScreen {
 		this.main = main;
 		
 		settingsScreen = new Settings(main);
-		betmenu = new BetMenu(250,780,"betmanu",main);
+		betmenu = new BetMenu(250,780,"betmenu",main);
 		
 		//open the single player game mode screen
 		//labels
@@ -63,9 +64,9 @@ public class GameScreen {
 	
 	public void tick() {
 		//when the player press deal
-		if((Main.homescreen.memberLogin && Main.gamescreen.deal.press && Main.game.p.getBet()>0) || Main.game.gameruning) {
+		if((Main.homescreen.memberLogin && Main.gamescreen.deal.press && Main.game.p.getBet()>0) || Main.game.gamerunning) {
 			Main.gamescreen.deal.press = false;
-			Main.game.gameruning = true;
+			Main.game.gamerunning = true;
 			Main.game.tick();
 			//if the player press the coin in the middle of the game
 			for(Button i : betmenu.coinsB) {
@@ -124,9 +125,9 @@ public class GameScreen {
 				deal.setEnabled(true);
 				Main.homescreen.memberLogin = false;
 				betmenu.resetBet();
-				Main.DB.members.get(Main.homescreen.playingMember).logMember.press = false;
-				Main.DB.members.get(Main.homescreen.playingMember).memberCerence.setText(Main.game.p.money +" $");
-				Main.DB.members.get(Main.homescreen.playingMember).membersName.setText(Main.game.p.name);
+				dataBase.members.get(Main.homescreen.playingMember).logMember.press = false;
+				dataBase.members.get(Main.homescreen.playingMember).memberCerence.setText(Main.game.p.money +" $");
+				dataBase.members.get(Main.homescreen.playingMember).membersName.setText(Main.game.p.name);
 
 				Main.background.setBackground("main");
 				Main.game.p.playerX = 0;
@@ -149,32 +150,32 @@ public class GameScreen {
 			}
 		}
 	}
-	public void rander(Graphics g) {
-		balanceCoin.rander(g);
-		balance.rander(g);
-		deal.rander(g);
-		clear.rander(g);
-		reBet.rander(g);
-		backToMain.rander(g);
-		settings.rander(g);
-		betmenu.rander(g);
+	public void render(Graphics g) {
+		balanceCoin.render(g);
+		balance.render(g);
+		deal.render(g);
+		clear.render(g);
+		reBet.render(g);
+		backToMain.render(g);
+		settings.render(g);
+		betmenu.render(g);
 		for(placeYourBet i : placebet) {
-			i.rander(g);
+			i.render(g);
 		}
 
 		
 		
-		if(Main.game.gameruning) {
-			hit.rander(g);
-			stand.rander(g);
-			split.rander(g);
-			Double.rander(g);
+		if(Main.game.gamerunning) {
+			hit.render(g);
+			stand.render(g);
+			split.render(g);
+			Double.render(g);
 		}
 		Main.game.d.render(g);
 		Main.game.p.render(g);
-		hand.rander(g);
+		hand.render(g);
 		if(Main.setting) {
-			settingsScreen.rander(g);
+			settingsScreen.render(g);
 		}
 			
 	}

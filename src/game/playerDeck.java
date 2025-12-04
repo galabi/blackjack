@@ -86,17 +86,17 @@ public class playerDeck {
 		deck.clear();
 	}
 	
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		for(Card i : deck) {
 			i.render(g);
 		}
-		TotalPointsL.rander(g);
+		TotalPointsL.render(g);
 		for(Text i : coins) {
-			i.rander(g);
+			i.render(g);
 			}
 		FontMetrics metrics = g.getFontMetrics(playerBet.font);
 		playerBet.setX(coinsTargetX + ((coinsWidth - metrics.stringWidth(playerBet.getText())) / 2));
-		playerBet.rander(g);
+		playerBet.render(g);
 	}
 
 	

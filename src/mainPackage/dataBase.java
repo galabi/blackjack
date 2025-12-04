@@ -8,157 +8,182 @@ import game.Members;
 
 public class dataBase {
 	
-	static String sql;
-	static String url = "jdbc:mysql://localhost:3306/blackjack",username = "root",password = "0000";
-	ResultSet rs;
-	Statement st;
-	Connection con = null;
-	Main main;
+	public static Main main;
 	
-	public int id,money,gamesPlayed;
-	public String name; 
-	public ArrayList<Members> members;
+	public static ArrayList<Members> members = new ArrayList<Members>();
 	
-	public dataBase(Main main) {
-		this.main = main;
-		try {
-			con = DriverManager.getConnection(url,username,password);
-			st = con.createStatement();
-		} catch (SQLException e) {
-			System.out.println("Data Base is not connected");		}
-		members = new ArrayList<Members>();
-	}
+    public static Connection connect() {
+        String url = "jdbc:sqlite:BlackJack.db";
+        try {
+            return DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.err.println("Error connecting to SQLite database:");
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
-	public void read() {
-		try {
+    public static void checkForTable() {
+        try (Connection conn = connect()) {
+            if (conn == null) {
+                System.err.println("Connection returned null! Table not created.");
+                return;
+            }
 
-			String sql = "select * from users";
-			rs = st.executeQuery(sql);
-			while(rs.next()) {
-				id = Integer.valueOf(rs.getString(1));
-				name = rs.getString(2);
-				money = Integer.valueOf(rs.getString(3));
-				gamesPlayed = Integer.valueOf(rs.getString(4));
-				members.add(new Members(name,money,gamesPlayed,members.size(),id,main));
-				Main.homescreen.baseYMembers = 700 - (members.size()*30);
-				members.get(members.size()-1).memberSelect();
-			}
-			updateLocation();
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+                        user_name TEXT NOT NULL,
+                        user_money INTEGER NOT NULL,
+                        user_games_count INTEGER NOT NULL
+                    );
+                """);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL error while creating table:");
+            e.printStackTrace();
+        }
+    }
+    
+	public static void read() {
+		String sql = "SELECT id, user_name, user_money, user_games_count FROM users";
 
-	}
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        	
+        	members.clear();
+        	
+        	while (rs.next()) {
+        		int id = rs.getInt("id");
+        		String name = rs.getString("user_name");
+        		int money = rs.getInt("user_money");
+        		int gamesPlayed = rs.getInt("user_games_count");
+        		
+        		Members newMember = new Members(name, money, gamesPlayed, members.size(), id, main);
+        		members.add(newMember);
+        		
+        		newMember.memberSelect();
+        		
+        		}
+            
+            updateLocation(); 
+
+        } catch (SQLException e) {
+        	System.out.println("Error occurred while reading users");
+        	e.printStackTrace();
+        }
+    }
+
 	
-	public void write(int id,String name,int money,int games_played){
-		sql = "UPDATE users SET  user_name = ?, user_money = ?, user_games_played = ? WHERE id = ?;";
+	public static void write(int id, String newName, int newMoney, int newGamesCount) {
+        String sql = "UPDATE users SET user_name = ?, user_money = ?, user_games_count = ? WHERE id = ?";
+        
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, newMoney);
+            pstmt.setInt(3, newGamesCount);
+            pstmt.setInt(4, id);
+            
+            pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Error Occured while updating user");
+        }
+    }
+	
+	public static void updateMoney(int id,int newMoney) {
+		String sql = "UPDATE users SET user_money = ? WHERE id = ?;";
 		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);  
-			ps.setString(1,(name)); 
-			ps.setString(2, Integer.toString(money)); 
-	        ps.setString(3, Integer.toString(games_played)); 
-	        ps.setString(4, Integer.toString(id));
-	        int i = ps.executeUpdate();
-	           if (i > 0) { 
-	        	   
-	           } else {
-	               System.out.println("Error Occured while updating data");
-	           }
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		updateLocation();
-	}
-	public void updateMoney(int id,int money) {
-		sql = "UPDATE users SET user_money = ? WHERE id = ?;";
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);  
-			ps.setString(1, Integer.toString(money)); 
-	        ps.setString(2, Integer.toString(id));
-	        int i = ps.executeUpdate();
-	           if (i > 0) { 
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	
+        	pstmt.setInt(1, newMoney); 
+        	pstmt.setInt(2, id);
+        	pstmt.executeUpdate();
 
-	           } else {
-	               System.out.println("Error Occured while updating money");
-	           }
-		}catch (Exception e) {
-			// TODO: handle exception
+		}catch (SQLException e) {
+            System.out.println("Error Occured while updating money");
 		}
 	}
 	
-	public void updateGamesPlayed(int id,int games_played) {
-		sql = "UPDATE users SET user_games_played = ? WHERE id = ?;";
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);  
-	        ps.setString(1, Integer.toString(games_played)); 
-	        ps.setString(2, Integer.toString(id));
-	        int i = ps.executeUpdate();
-	           if (i > 0) { 
-	           
-	           } else {
-	               System.out.println("Error Occured while updating games played");
-	           }
-		}catch (Exception e) {
-			// TODO: handle exception
+	public static void updateGamesPlayed(int id,int NewGamesPlayed) {
+		String sql = "UPDATE users SET user_games_count = ? WHERE id = ?;";
+				
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	
+        	pstmt.setInt(1, NewGamesPlayed); 
+        	pstmt.setInt(2, id);
+        	pstmt.executeUpdate();
+
+		}catch (SQLException e) {
+            System.out.println("Error Occured while updating gamesplayed");
 		}
 	}
 	
-	public void deletePlayer(int member_number){
-		sql = "DELETE FROM users WHERE id = ?;";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);  
-	        ps.setString(1, Integer.toString(members.get(member_number).getId())); 
-	        ps.executeUpdate();
-	        
-			members.remove(member_number);
-
+	public static void deletePlayer(int memberNumber){
+		String sql = "DELETE FROM users WHERE id = ?;";
+		
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	
+        	pstmt.setInt(1, members.get(memberNumber).getId());
+        	pstmt.executeUpdate();
+        	
+        	members.remove(memberNumber);
+        	
 	        for(int i = 0; i< members.size();i++) {
 				members.get(i).setMemberNumber(i);
 			}
 			updateLocation();
-			
+
 		}catch (Exception e) {
-			e.printStackTrace();		
-			}
-	}
-	
-	public void createPlayer(String name) {
-		sql = "INSERT INTO users(user_name, user_money,user_games_played) VALUES (?, ?, ?)";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);  
-	        ps.setString(1,(name)); 
-	        ps.setString(2, Integer.toString(500)); 
-	        ps.setString(3, Integer.toString(0)); 
-	      
-	        int i = ps.executeUpdate();
-	           if (i > 0) { 
-
-	           } else {
-	               System.out.println("Error Occured while create Player");
-	           }
-
-	           try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-	               if (generatedKeys.next()) {
-	                  members.add(new Members(name, 700, 0, members.size(), generatedKeys.getInt(1), main));
-	  				Main.homescreen.baseYMembers = 700 - (members.size()*30);
-					members.get(members.size()-1).memberSelect();
-	               }
-	           }
-	           updateLocation();
-		}catch (Exception e){
-
+            System.out.println("Error Occured while deleting member");
 		}
+        
 	}
 	
-	public void updateLocation() {
+	public static void createPlayer(String name) {
 		
+        String sql = "INSERT INTO users (user_name, user_money, user_games_count) VALUES (?, ?, ?)";
+
+        try (Connection conn = connect();
+        		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, name);
+            stmt.setInt(2, 500);
+            stmt.setInt(3, 0);
+
+            stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            	if (generatedKeys.next()) {
+            		members.add(new Members(name, 700, 0, members.size(), generatedKeys.getInt(1), main));
+            		
+            		members.get(members.size()-1).memberSelect();
+            		}
+            	}
+            updateLocation();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public static void updateLocation() {
+		if (Main.homescreen == null) return;
+
 		Main.homescreen.baseYMembers = 750 - (members.size()*30);
 		for(Members i : members) {
 			i.memberSelectUpdate();
 		}
-		Main.homescreen.login.setLocation(780, Main.homescreen.baseYMembers -30);
+		Main.homescreen.login.setLocation(880, Main.homescreen.baseYMembers -40);
+	}
+	public static void setMainInstance(Main m){
+		main = m;
 	}
 }

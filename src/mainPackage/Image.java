@@ -21,7 +21,7 @@ public class Image extends component{
 	}
 
 	@Override
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		Graphics2D g2d =  (Graphics2D) g;	
 		AffineTransform old = g2d.getTransform();
 		g2d.rotate(Math.toRadians(angle),x+(sizeX/2),y+(sizeY/2));

@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import mainPackage.Card;
 import mainPackage.DeckOfCards;
 import mainPackage.Main;
+import mainPackage.dataBase;
 import mainPackage.placeYourBet;
 
 public class GameLoop {
 
 	 Main main;
 	 public int playerhand = 0,winnerCunter = 0;
-	 public boolean newgame = true,gameruning = false;
+	 public boolean newgame = true,gamerunning = false;
 	 public Player p;
 	 dealer d;
 	 ArrayList<Card> Deck = new DeckOfCards().getShuffledDeck();
@@ -35,8 +36,8 @@ public class GameLoop {
 		
 		//take the bet from the balance and save
 		p.money -= p.Bet;
-		Main.DB.members.get(p.memberNumber).setMoney(p.money);
-		Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+		dataBase.members.get(p.memberNumber).setMoney(p.money);
+		dataBase.write(p.id, p.name, p.money, p.gamesPlayed);
 		Main.gamescreen.balance.setText("$"+ p.money);
 		
 		Main.gamescreen.deal.setEnabled(false);
@@ -100,8 +101,8 @@ public class GameLoop {
 				p.money -= p.playerdecks.get(playerhand).bet;
 				p.Bet += p.playerdecks.get(playerhand).bet;
 				p.playerdecks.get(playerhand).bet = p.playerdecks.get(playerhand).bet*2;
-				Main.DB.members.get(p.memberNumber).setMoney(p.money);
-				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+				dataBase.members.get(p.memberNumber).setMoney(p.money);
+				dataBase.write(p.id, p.name, p.money, p.gamesPlayed);
 				Main.gamescreen.balance.setText("$"+ p.money);
 				p.playerdecks.get(playerhand).doubleHand();
 				p.play();
@@ -127,8 +128,8 @@ public class GameLoop {
 				
 				p.Bet += p.playerdecks.get(playerhand + splithands).bet;
 				p.money -= p.playerdecks.get(playerhand + splithands).bet;
-				Main.DB.members.get(p.memberNumber).setMoney(p.money);
-				Main.DB.write(p.id, p.name, p.money, p.gamesPlayed);
+				dataBase.members.get(p.memberNumber).setMoney(p.money);
+				dataBase.write(p.id, p.name, p.money, p.gamesPlayed);
 				
 				p.split(splithands);
 				
@@ -193,7 +194,7 @@ public class GameLoop {
 							for(placeYourBet i:Main.gamescreen.placebet){
 								i.setEnabled(true);
 							}
-							gameruning = false;
+							gamerunning = false;
 							Main.gamescreen.deal.setEnabled(true);
 							Main.gamescreen.clear.setEnabled(true);
 						}

@@ -23,7 +23,7 @@ public class Text extends component{
 		
 		//draw the text on the screen
 		@Override
-		public void rander(Graphics g) {
+		public void render(Graphics g) {
 			g.setFont(font);
 			if(FileLocation != null) {
 				g.drawImage(image.getImage(), x, y, sizeX, sizeY,null);

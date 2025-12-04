@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.awt.Graphics;
+
 import javax.swing.ImageIcon;
 
 public class Background {
@@ -15,7 +16,7 @@ public class Background {
 	}
 	
 	//the main func that run the image of the background
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		switch (imagloction) {
 		case "main":
 			g.drawImage(imag.getImage(), 0, 0, Main.width, Main.height, null);

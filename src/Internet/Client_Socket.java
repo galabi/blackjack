@@ -27,7 +27,6 @@ public class Client_Socket implements Runnable{
             	  
             	s.close();  
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 
 		

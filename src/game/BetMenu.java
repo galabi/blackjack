@@ -98,9 +98,9 @@ public class BetMenu extends component{
 	}
 	
 	@Override
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		for(Button i : coinsB) {
-			i.rander(g);
+			i.render(g);
 		}
 
 	}

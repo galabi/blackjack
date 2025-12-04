@@ -36,7 +36,7 @@ public ImageIcon image,imagepress;
 	
 	//draw the button on the screen
 	@Override
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		if(!buttonEnabled)return;
 		Graphics2D g2d =  (Graphics2D) g;
 		AffineTransform old = g2d.getTransform();

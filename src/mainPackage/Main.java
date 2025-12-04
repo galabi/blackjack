@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 import game.GameLoop;
 import game.GameScreen;
 import game.HomeScreen;
@@ -18,14 +19,14 @@ public class Main extends Canvas implements Runnable{
 	private static final long serialVersionUID = 1L;
 	public static int width = 1200 ,height = width /12 * 9; 
 	private Thread thread;
-	private boolean runing = false;
+	private boolean running = false;
 	public static Background background;
 	public static JFrame Frame;
-	public static dataBase DB;
 	public static HomeScreen homescreen;
 	public static GameLoop game;
 	public static GameScreen gamescreen;
-	public static boolean setting;
+	public static boolean setting = false;
+	public  Main main = this;
 
 	
 	public Main() {
@@ -40,13 +41,13 @@ public class Main extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 		
-		runing = true;
+		running = true;
 		
 	}
 	public synchronized void stop() {
 		try {
 			thread.join();
-			runing = false;
+			running = false;
 		} catch (Exception e) {
 		      System.out.println(e);
 		      e.printStackTrace();
@@ -61,7 +62,7 @@ public class Main extends Canvas implements Runnable{
 	double delta = 0;
 	long timer = System.currentTimeMillis();
 	int frames = 0;
-	while(runing) {
+	while(running) {
 		long now = System.nanoTime();
 		delta += (now - lastTime)/ns;
 		lastTime = now;
@@ -69,7 +70,7 @@ public class Main extends Canvas implements Runnable{
 			tick();
 			delta--;
 		}
-		if(runing) {
+		if(running) {
 			render();
 		}
 		frames++;
@@ -85,15 +86,7 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
-		/**
-		if(Frame.getWidth() != width || Frame.getHeight() != height) {
-			System.out.println(height);
-			width = Frame.getWidth();
-			height = width /12 * 9;
-			Frame.setSize(width, height);
-			
-	
-		}**/
+
 		try {
 			 if(!homescreen.memberLogin){
 				homescreen.tick();
@@ -111,8 +104,7 @@ public class Main extends Canvas implements Runnable{
 				gamescreen.settingsScreen.tick();
 			}
 		}catch (Exception e) {
-		      System.out.println(e);
-		      e.printStackTrace();
+
 		      }
 	}
 	
@@ -127,11 +119,11 @@ public class Main extends Canvas implements Runnable{
 		Graphics g = bs.getDrawGraphics();
 		
 		try {
-			background.rander(g);
+			background.render(g);
 			if(homescreen.memberLogin) {
-				gamescreen.rander(g);
+				gamescreen.render(g);
 			}else {
-				homescreen.rander(g);
+				homescreen.render(g);
 			}
 		} catch (Exception e) {
 		      System.out.println(e);
@@ -144,7 +136,7 @@ public class Main extends Canvas implements Runnable{
 
 
 	
-public void window(int width,int height,String titel,Main main){
+public void window(int width,int height,String title,Main main){
 
 	//set the game icon
 	try {
@@ -153,10 +145,12 @@ public void window(int width,int height,String titel,Main main){
 	      System.out.println(e);
 	      e.printStackTrace();
 	  }
-	DB = new dataBase(main);
+	dataBase.setMainInstance(main);
+	dataBase.checkForTable();
+	
 	background = new Background();	
 	
-	Frame = new JFrame(titel);
+	Frame = new JFrame(title);
 	Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Frame.setSize(width, height);
 	Frame.setMinimumSize(new Dimension(width,height));
@@ -184,5 +178,3 @@ public void window(int width,int height,String titel,Main main){
 
 
 }
-
-

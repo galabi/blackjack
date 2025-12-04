@@ -57,7 +57,7 @@ public class Coins extends Text{
 	}
 	
 	@Override
-	public void rander(Graphics g) {
+	public void render(Graphics g) {
 		if(Enabled) {
 			g.drawImage(image.getImage(), x, y, sizeX, sizeY,null);
 		}

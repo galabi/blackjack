@@ -33,7 +33,7 @@ public class Textbox extends component implements KeyListener,MouseListener,Mous
 		
 		//draw the text box on the screen
 		@Override
-		public void rander(Graphics g) {
+		public void render(Graphics g) {
 			String textbox = getText();
 			g.setColor(Color.white);
 			g.fillRect(x, y, sizeX, sizeY);
@@ -131,13 +131,11 @@ public class Textbox extends component implements KeyListener,MouseListener,Mous
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 		
