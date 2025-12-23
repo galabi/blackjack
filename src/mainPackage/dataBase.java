@@ -1,5 +1,7 @@
 package mainPackage;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -12,10 +14,21 @@ public class dataBase {
 	
 	public static ArrayList<Members> members = new ArrayList<Members>();
 	
-    public static Connection connect() {
-        String url = "jdbc:sqlite:BlackJack.db";
+    public static Connection connect() {    	
+    	String path = "";
         try {
+            path = new File(dataBase.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        String url = "jdbc:sqlite:" + path + "/BlackJack.db";
+        try {
+        	Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection(url);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Could not load SQLite JDBC Driver!");
+            e.printStackTrace();
+            return null;
         } catch (SQLException e) {
             System.err.println("Error connecting to SQLite database:");
             e.printStackTrace();
@@ -162,7 +175,7 @@ public class dataBase {
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
             	if (generatedKeys.next()) {
-            		members.add(new Members(name, 700, 0, members.size(), generatedKeys.getInt(1), main));
+            		members.add(new Members(name, 500, 0, members.size(), generatedKeys.getInt(1), main));
             		
             		members.get(members.size()-1).memberSelect();
             		}

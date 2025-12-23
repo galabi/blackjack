@@ -11,7 +11,7 @@ int x,y,sizeX = 84, sizeY = 120;
 public int points,face;
 public int angle = 0;
 public Boolean FaceUp = true;
-String FileLocation,BackFileLocation = "/cardback.PNG";
+String FileLocation,BackFileLocation = "/cardback.png";
 public ImageIcon image, backimg;
 
 	public Card(int points, int face, String FileLocation) {

@@ -3,7 +3,9 @@ package mainPackage;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Image extends component{
@@ -17,7 +19,11 @@ public class Image extends component{
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.FileLocation = FileLocation; 
-		image = new ImageIcon(getClass().getResource(FileLocation));
+		try {
+			image = new ImageIcon(ImageIO.read(getClass().getResourceAsStream(FileLocation)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

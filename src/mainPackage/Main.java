@@ -140,7 +140,7 @@ public void window(int width,int height,String title,Main main){
 
 	//set the game icon
 	try {
-		Taskbar.getTaskbar().setIconImage(ImageIO.read(getClass().getResource("/icon.PNG")));
+		Taskbar.getTaskbar().setIconImage(ImageIO.read(getClass().getResource("/icon.png")));
 	} catch (IOException e) {
 	      System.out.println(e);
 	      e.printStackTrace();
@@ -171,7 +171,6 @@ public void window(int width,int height,String title,Main main){
 
 
 	public static void main(String[] args) {
-		
 		new Main();
 	}
 

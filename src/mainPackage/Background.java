@@ -1,7 +1,9 @@
 package mainPackage;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Background {
@@ -10,8 +12,13 @@ public class Background {
 	public boolean back = false;
 	
 	public Background() {
-		imag = new ImageIcon(getClass().getResource("/main_background.PNG"));
-		imagb = new ImageIcon(getClass().getResource("/table_blackjack.PNG"));
+		try {
+			imag = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/main_background.png")));
+			imagb = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/table_blackjack.png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
