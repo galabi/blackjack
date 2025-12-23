@@ -11,7 +11,7 @@ import mainPackage.placeYourBet;
 public class GameLoop {
 
 	 Main main;
-	 public int playerhand = 0,winnerCunter = 0;
+	 public int playerhand = 0,winnerCounter = 0;
 	 public boolean newgame = true,gamerunning = false;
 	 public Player p;
 	 dealer d;
@@ -173,12 +173,12 @@ public class GameLoop {
 			if (d.totalpoints >= 17){
 				
 				//the clock for the win/loss 
-				if (winnerCunter < p.playerdecks.size()) {
-					p.playerdecks.get(winnerCunter).checkWiner(Main.game.d.totalpoints);
-					p.playerdecks.get(winnerCunter).time = System.currentTimeMillis();
-					winnerCunter++;
+				if (winnerCounter < p.playerdecks.size()) {
+					p.playerdecks.get(winnerCounter).checkWiner(Main.game.d.totalpoints);
+					p.playerdecks.get(winnerCounter).time = System.currentTimeMillis();
+					winnerCounter++;
 					}else {
-						if((p.playerdecks.get(winnerCunter-1).time +1000 < System.currentTimeMillis())) {
+						if((p.playerdecks.get(winnerCounter-1).time +1000 < System.currentTimeMillis())) {
 							int win = 0;
 							for(playerDeck d: p.playerdecks) {
 								if(d.win) {
@@ -221,7 +221,7 @@ public void setPlayingHandColor() {
 
 public void resetStats() {
 	//Prepare the game for a new game
-	winnerCunter = 0;
+	winnerCounter = 0;
 	d.reset();
 	for(playerDeck i : Main.game.p.playerdecks) {
 		i.reset();

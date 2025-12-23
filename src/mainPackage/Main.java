@@ -104,8 +104,8 @@ public class Main extends Canvas implements Runnable{
 				gamescreen.settingsScreen.tick();
 			}
 		}catch (Exception e) {
-
-		      }
+			e.printStackTrace();
+		}
 	}
 	
 	

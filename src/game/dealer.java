@@ -62,13 +62,18 @@ boolean ace = false;
 			time = System.currentTimeMillis();
 			Main.game.p.playerdecks.get(0).audio.PlayAudio("card");
 			DealerDeck.get(1).FaceUp = true;
-			totalpoints = totalpoints + DealerDeck.get(1).points;
+			totalpoints = totalpoints + DealerDeck.get(DealerDeck.size()-1).points;
 			TotalPointsL.setText(String.valueOf(totalpoints));
 			
-			if(totalpoints > 21 && ace) {
-				totalpoints = totalpoints - 10;
-				TotalPointsL.setText(String.valueOf(totalpoints));
-				ace = false;
+			if(totalpoints > 21) {
+			    if(DealerDeck.get(DealerDeck.size()-1).points == 11) {
+			        totalpoints = totalpoints - 10;
+			    } 
+			    else if (ace) {
+			        totalpoints = totalpoints - 10;
+			        ace = false;
+			    }
+			    TotalPointsL.setText(String.valueOf(totalpoints));
 			}
 		}		
 		//the dealer take cards until his total point are more then 17
