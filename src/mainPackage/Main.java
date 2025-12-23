@@ -159,14 +159,12 @@ public void window(int width,int height,String title,Main main){
 	Frame.add(main);
 	Frame.setVisible(true);
 	 
-		
-	main.start();
-	
 	homescreen = new HomeScreen(this); 
 	homescreen.creatHomeScreen();
 	game = new GameLoop(this);
 	gamescreen = new GameScreen(this);
 	
+	main.start();
 	}
 
 
